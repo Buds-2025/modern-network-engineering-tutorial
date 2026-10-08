@@ -1,0 +1,34 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="现代网络工程零基础入门教程的本地HTTP实验页面。">
+  <title>我的第一个网络实验</title>
+  <style>
+    :root { color-scheme: light dark; font-family: system-ui, "Microsoft YaHei", sans-serif; line-height: 1.8; }
+    body { margin: 0; background: #f5f4ee; color: #173c3a; }
+    main { max-width: 40rem; margin: 12vh auto; padding: 0 1.5rem; }
+    h1 { line-height: 1.3; font-size: clamp(1.8rem, 6vw, 2.6rem); }
+    a { color: #08665f; text-underline-offset: .2em; }
+    a:focus-visible { outline: 2px solid currentColor; outline-offset: 5px; }
+    code { overflow-wrap: anywhere; }
+    small { display: block; margin-top: 3rem; border-top: 1px solid #c6d0c9; padding-top: 1rem; }
+    @media (prefers-color-scheme: dark) { body { background: #132927; color: #edf2ea; } a { color: #8bd2bf; } }
+  </style>
+</head>
+<body>
+  <main>
+    <p>现代网络工程基础 · 本地HTTP实验</p>
+    <h1>我的第一个网络实验</h1>
+    <p>如果你通过实验中的HTTP地址打开本页，说明浏览器已经向服务器提出请求，并收到了这份HTML文件。</p>
+    <p><a href="status.txt">查看状态文件 →</a></p>
+    <ol>
+      <li>在浏览器的“网络”面板里观察请求URL和状态码。</li>
+      <li>在服务器终端里找到对应的GET请求记录。</li>
+      <li>按教程停止服务，再用端口测试比较结果。</li>
+    </ol>
+    <small>本页仅供学习与临时测试，不包含账号、密码或个人文件。直接双击本文件也能阅读，但不会产生HTTP实验中的服务器请求。</small>
+  </main>
+</body>
+</html>

@@ -1,0 +1,103 @@
+/* Hallmark · pre-emit critique: P4 H5 E4 S5 R5 V4
+ * macrostructure: Long Document · genre: editorial · theme: Almanac
+ * audience: Chinese beginners · use: reference and guided reading · tone: quiet, precise
+ * nav: N3 Side-rail · footer: Ft4 Dense colophon · enrichment: none */
+:root {
+  color-scheme: light;
+  --color-paper: oklch(98% .008 86);
+  --color-paper-2: oklch(95.5% .013 86);
+  --color-paper-3: oklch(92% .016 86);
+  --color-ink: oklch(25% .018 188);
+  --color-ink-2: oklch(36% .015 188);
+  --color-muted: oklch(46% .015 188);
+  --color-rule: oklch(84% .014 86);
+  --color-control: oklch(57% .018 188);
+  --color-accent: oklch(39% .075 187);
+  --color-accent-soft: oklch(94% .023 187);
+  --color-accent-ink: oklch(98% .008 187);
+  --color-focus: oklch(44% .1 210);
+  --color-warn: oklch(43% .09 60);
+  --color-warn-soft: oklch(95% .028 80);
+  --color-error: oklch(44% .14 27);
+  --color-error-soft: oklch(95% .021 27);
+  --color-code: oklch(23% .018 188);
+  --color-code-ink: oklch(92% .012 95);
+  --color-code-muted: oklch(75% .02 188);
+  --color-code-rule: oklch(62% .02 188);
+  --color-scrim: oklch(20% .012 188 / .4);
+  --color-clear: oklch(98% .008 86 / 0);
+  --font-display: "Noto Serif SC", "Source Han Serif SC", "Songti SC", "STSong", "SimSun", serif;
+  --font-body: "Noto Sans SC", "PingFang SC", "Microsoft YaHei", sans-serif;
+  --font-mono: "JetBrains Mono", "Cascadia Code", "SFMono-Regular", "Consolas", monospace;
+  --space-2xs: .25rem;
+  --space-xs: .5rem;
+  --space-sm: .75rem;
+  --space-md: 1rem;
+  --space-lg: 1.5rem;
+  --space-xl: 2rem;
+  --space-2xl: 3rem;
+  --space-3xl: 4rem;
+  --space-4xl: 6rem;
+  --text-xs: .75rem;
+  --text-sm: .875rem;
+  --text-base: 1rem;
+  --text-prose: 1.0625rem;
+  --text-lead: 1.125rem;
+  --text-lg: 1.375rem;
+  --text-xl: clamp(1.625rem, 2vw, 2rem);
+  --text-display: clamp(2.25rem, 4.4vw, 3.75rem);
+  --ease-out: cubic-bezier(.16, 1, .3, 1);
+  --ease-in: cubic-bezier(.7, 0, .84, 0);
+  --ease-in-out: cubic-bezier(.65, 0, .35, 1);
+  --dur-micro: 120ms;
+  --dur-short: 220ms;
+  --rule-thin: 1px;
+  --rule-heavy: 2px;
+  --radius-small: 3px;
+  --radius-panel: 6px;
+  --radius-round: 50%;
+  --rail-width: 264px;
+  --header-height: 64px;
+  --reading-width: 760px;
+  --z-base: 1;
+  --z-sticky: 200;
+  --z-backdrop: 300;
+  --z-modal: 400;
+  --z-skip: 500;
+}
+[data-theme="dark"] {
+  color-scheme: dark;
+  --color-paper: oklch(19% .012 188);
+  --color-paper-2: oklch(22% .013 188);
+  --color-paper-3: oklch(27% .016 188);
+  --color-ink: oklch(93% .009 86);
+  --color-ink-2: oklch(85% .01 86);
+  --color-muted: oklch(75% .013 86);
+  --color-rule: oklch(37% .015 188);
+  --color-control: oklch(65% .018 188);
+  --color-accent: oklch(79% .07 187);
+  --color-accent-soft: oklch(27% .027 187);
+  --color-accent-ink: oklch(20% .016 187);
+  --color-focus: oklch(82% .09 210);
+  --color-warn: oklch(83% .085 80);
+  --color-warn-soft: oklch(27% .026 80);
+  --color-error: oklch(82% .095 27);
+  --color-error-soft: oklch(27% .026 27);
+}
+@media print {
+  :root, [data-theme="dark"] {
+    color-scheme: light;
+    --color-paper: oklch(99% .005 86);
+    --color-paper-2: oklch(97% .008 86);
+    --color-ink: oklch(20% .01 188);
+    --color-ink-2: oklch(30% .01 188);
+    --color-muted: oklch(38% .01 188);
+    --color-accent: oklch(32% .06 187);
+    --color-accent-soft: oklch(95% .012 187);
+    --color-rule: oklch(78% .01 86);
+    --color-warn: oklch(35% .07 60);
+    --color-warn-soft: oklch(96% .015 80);
+    --color-error: oklch(35% .1 27);
+    --color-error-soft: oklch(96% .01 27);
+  }
+}

@@ -1,0 +1,718 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="description" content="现代网络工程零基础入门教程。用通俗解释、图解、命令与实操，学会看懂家庭网络、搭建本地服务并排查常见故障。" />
+<title>现代网络工程基础｜零基础入门教程</title>
+<link rel="stylesheet" href="tokens.css" />
+<link rel="stylesheet" href="styles/book.css" />
+<meta name="color-scheme" content="light dark" />
+<noscript><style>.sidebar{position:static;transform:none;visibility:visible;width:100%;max-height:none}.sidebar-close,.utility,.search-launch,.quiz button,.reading-rail{display:none}.toc{overflow:visible}main{margin:0}.sidebar-head{display:block}</style></noscript>
+<script>
+try {
+  const preference = localStorage.getItem('netbook-theme');
+  document.documentElement.dataset.theme = ['light', 'dark'].includes(preference) ? preference : (matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+} catch { document.documentElement.dataset.theme = matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'; }
+</script>
+</head>
+<body>
+<a class="skip-link" href="#ch0">跳到正文</a>
+<div class="sr-only" id="liveStatus" role="status" aria-live="polite"></div>
+<div id="progress" aria-hidden="true"></div>
+<aside class="sidebar" id="sidebar" aria-label="教程目录">
+<div class="sidebar-head"><a class="brand" href="#bookTop" aria-label="现代网络工程基础，回到教程首页"><svg class="brand-mark" viewBox="0 0 36 36" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M9 10h18M9 10l9 17 9-17"/><circle cx="9" cy="10" r="3.5" fill="var(--color-paper-2)"/><circle cx="27" cy="10" r="3.5" fill="var(--color-paper-2)"/><circle cx="18" cy="27" r="3.5" fill="var(--color-paper-2)"/></svg><span>现代网络工程基础<small>零基础入门教程</small></span></a><button id="closeMenu" class="sidebar-close" aria-label="关闭目录">×</button></div>
+<button class="search-launch" type="button" data-open-search aria-haspopup="dialog"><svg class="search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6.5"/><path d="m16 16 4.5 4.5"/></svg><span>搜索教程</span><kbd>Ctrl K</kbd></button>
+<nav class="toc" id="toc" aria-label="教程目录">
+    <div class="part">起步</div>
+    <a href="#ch0" title="学习路线与动手准备"><span class="toc-number" aria-hidden="true">—</span><span class="toc-label">学习路线与动手准备</span></a><a href="#ch1" title="1．先看懂你身边的网络"><span class="toc-number" aria-hidden="true">01</span><span class="toc-label">身边的网络</span></a><a href="#ch2" title="2．IP地址"><span class="toc-number" aria-hidden="true">02</span><span class="toc-label">IP地址</span></a><a href="#ch3" title="3．子网、网关与路由"><span class="toc-number" aria-hidden="true">03</span><span class="toc-label">子网、网关与路由</span></a><a href="#ch4" title="4．MAC、ARP与局域网"><span class="toc-number" aria-hidden="true">04</span><span class="toc-label">MAC、ARP与局域网</span></a>
+    <div class="part">核心协议</div>
+    <a href="#ch5" title="5．TCP、UDP与端口"><span class="toc-number" aria-hidden="true">05</span><span class="toc-label">TCP、UDP与端口</span></a><a href="#ch6" title="6．NAT、端口映射与家庭上网"><span class="toc-number" aria-hidden="true">06</span><span class="toc-label">NAT与端口映射</span></a><a href="#ch7" title="7．域名体系"><span class="toc-number" aria-hidden="true">07</span><span class="toc-label">域名体系</span></a><a href="#ch8" title="8．DNS"><span class="toc-number" aria-hidden="true">08</span><span class="toc-label">DNS解析</span></a><a href="#ch9" title="9．HTTP、HTTPS、HTTP/3与QUIC"><span class="toc-number" aria-hidden="true">09</span><span class="toc-label">HTTP、HTTPS与QUIC</span></a>
+    <div class="part">现代网络</div>
+    <a href="#ch10" title="10．防火墙与网络安全"><span class="toc-number" aria-hidden="true">10</span><span class="toc-label">防火墙与安全</span></a><a href="#ch11" title="11．Wi-Fi与家庭网络"><span class="toc-number" aria-hidden="true">11</span><span class="toc-label">Wi-Fi与家庭网络</span></a><a href="#ch12" title="12．网络性能"><span class="toc-number" aria-hidden="true">12</span><span class="toc-label">网络性能</span></a><a href="#ch13" title="13．代理、VPN与隧道"><span class="toc-number" aria-hidden="true">13</span><span class="toc-label">代理、VPN与隧道</span></a><a href="#ch14" title="14．Docker与容器网络"><span class="toc-number" aria-hidden="true">14</span><span class="toc-label">Docker容器网络</span></a><a href="#ch15" title="15．云网络、CDN与负载均衡"><span class="toc-number" aria-hidden="true">15</span><span class="toc-label">云网络与CDN</span></a><a href="#ch16" title="16．互联网骨干、AS与BGP"><span class="toc-number" aria-hidden="true">16</span><span class="toc-label">AS与BGP</span></a>
+    <div class="part">实战与整合</div>
+    <a href="#ch17" title="17．网络故障排查"><span class="toc-number" aria-hidden="true">17</span><span class="toc-label">网络故障排查</span></a><a href="#ch18" title="18．综合实战与能力自检"><span class="toc-number" aria-hidden="true">18</span><span class="toc-label">综合实战与能力自检</span></a><a href="#appendix" title="附录：命令、端口、术语与资料"><span class="toc-number" aria-hidden="true">附</span><span class="toc-label">命令、术语与资料</span></a>
+  </nav>
+<div class="sidebar-bottom"><span>18课 · 零基础入门</span><a href="#appendix">资料索引 ↗</a></div>
+</aside>
+<button class="menu-scrim" id="menuScrim" tabindex="-1" aria-label="关闭目录" hidden></button>
+
+<main id="main">
+<header class="utility" aria-label="阅读工具">
+<button id="menuBtn" type="button" aria-expanded="false" aria-controls="sidebar" aria-label="打开教程目录">☰</button>
+<span class="mobile-name">网络工程基础</span>
+<span class="utility-context">正在阅读 <span aria-hidden="true">/</span> <span id="currentChapter">学习路线与动手准备</span></span>
+<div class="utility-actions"><button type="button" data-open-search aria-label="搜索教程" aria-haspopup="dialog" title="搜索教程（Ctrl+K）"><svg class="search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6.5"/><path d="m16 16 4.5 4.5"/></svg></button><button type="button" id="fontBtn" aria-label="调整正文字号">Aa</button><button type="button" id="themeBtn" aria-pressed="false"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M20.5 13A8.5 8.5 0 0 1 11 3.5 8.5 8.5 0 1 0 20.5 13Z"/></svg><span class="sr-only" id="themeLabel">深色</span></button><button type="button" id="printBtn" title="打印或保存PDF" aria-label="打印或保存PDF"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M7 8V3h10v5M7 17H4V9h16v8h-3M7 14h10v7H7Z"/><path d="M17 11h1"/></svg></button></div>
+</header>
+<section class="hero" id="bookTop" aria-labelledby="bookTitle">
+<div class="hero-inner">
+<div class="hero-top"><span>网络工程 · 零基础入门教程</span><span class="edition">2026年10月修订</span></div>
+<h1 id="bookTitle">现代网络工程基础</h1>
+<p class="hero-subtitle">从家庭网络到云与互联网</p>
+<p class="hero-description">从“Wi-Fi连上了，为什么还不能上网”开始。用身边的例子看懂数据怎样到达网站，再跟着步骤查看配置、搭建本地网页、定位故障。每学一点，就亲手验证一点。</p>
+<div class="hero-actions"><a class="start-reading" href="#ch0">开始学习<span class="arrow" aria-hidden="true">→</span></a><a id="resumeReading" href="#ch0" hidden>继续上次阅读 ↗</a><a href="#ch17">查找排错方法 ↗</a></div>
+<div class="hero-meta"><span><strong>18</strong>课循序入门</span><span>图解与命令实训</span><span>无需网络基础</span><span><a href="#sources">查看标准与资料 ↗</a></span></div>
+</div></section>
+<div class="content">
+<section class="chapter" id="ch0" tabindex="-1" aria-labelledby="ch0-title"><h2 id="ch0-title">学习路线与动手准备</h2><p class="lead">手机连上Wi-Fi，为什么有时仍打不开网页？一台电脑有了IP地址，为什么还需要网关和DNS？这个教程从这些小问题出发，一步步带你认设备、看配置、跑命令，再亲手搭起一个小服务。遇到不认识的缩写，先看它解决什么问题，随后再记名字。</p>
+<div class="diagram" role="figure" aria-labelledby="ch0-fig1"><div class="diagram-title" id="ch0-fig1">图0-1　学习主线：从“设备”一路走到“互联网”</div><div class="flow"><div class="node">你的电脑<small>网卡 / Wi-Fi</small></div><span class="arrow">→</span><div class="node">家庭路由器<small>LAN / NAT / DHCP</small></div><span class="arrow">→</span><div class="node">运营商<small>接入网 / CGNAT</small></div><span class="arrow">→</span><div class="node">互联网<small>路由 / BGP</small></div><span class="arrow">→</span><div class="node">网站<small>DNS / HTTPS / CDN</small></div></div></div>
+<div class="grid3"><div class="mini"><b>每课先看懂</b><span>先用自己的话解释“这个东西解决什么问题”，暂时不用背协议字段。</span></div><div class="mini"><b>接着动手</b><span>按步骤操作，把实际结果与示例对照；没有设备的部分先画图、做判断题。</span></div><div class="mini"><b>最后独立完成</b><span>合上提示再做一次，说明每步能证明什么，遇到错误按层定位。</span></div></div>
+<div class="note"><span class="kicker">先记住一句话：</span>网络通信就是“谁（源地址）把什么（数据）通过哪条路（路由）送给谁（目标地址），再交给哪个程序（端口）”。后面的绝大多数概念，都在补这句话的细节。</div>
+<div class="note"><span class="kicker">示例与实训的使用范围。</span>文中的<code>192.0.2.0/24</code>、<code>198.51.100.0/24</code>、<code>203.0.113.0/24</code>和<code>2001:db8::/32</code>用于文档说明，不可作为真实公网目标；<code>example.com</code>等保留域名可用于示例，但不保证支持所有协议或服务。请把实验中的地址替换为你自己的环境。</div>
+<p>命令按Windows、Linux、macOS区分；部分系统需另行安装dig、traceroute、lsof、iperf3等工具。复制命令前先确认操作系统和测试对象。正文可离线阅读，外部资料与真实网络实验需要联网。搜索快捷键为Ctrl+K（macOS为⌘K），手机可从顶部搜索按钮进入。</p>
+
+<h3 id="ch0-goals" tabindex="-1">学完并做完练习，你要能办成哪些事</h3>
+<p>目标是独立处理常见的小型网络任务：认出光猫、路由器和AP；查出自己设备的IP、网关和DNS；读懂一个简单子网；把本地网页跑起来；区分地址、名字、端口和应用故障；为家庭或小办公室画出基本连接与访问方案。容器和云网络部分让你能读懂常见配置，知道该从哪里检查。</p>
+<p>这些能力要靠“读懂＋动手＋解释结果”一起建立。先不要求你配置运营商BGP、大型园区冗余或复杂生产集群；相关课程先帮助你看懂它们与日常通信的关系。遇到超出范围的问题，能准确描述现象和收集证据，也是一项工程能力。</p>
+<ol><li><strong>第1～4课：认路。</strong>从盒子、网线和Wi-Fi开始，认出IP、子网、网关、MAC之间的分工。</li><li><strong>第5～10课：让服务说上话。</strong>理解端口、NAT、DNS和HTTPS，知道服务为什么只能本机访问。</li><li><strong>第11～16课：看懂现代环境。</strong>判断无线和性能问题，理解代理、容器、云网络与互联网路由。</li><li><strong>第17～18课：独立完成。</strong>按证据排错，完成综合实操，再用验收表检查自己。</li></ol>
+<h3 id="ch0-prepare" tabindex="-1">准备一个小实验台，不用先买设备</h3>
+<p>基础练习用一台电脑和浏览器就能开始。Windows可右键“开始”打开终端，选择PowerShell；macOS打开“终端”；Linux打开终端应用。命令输入后按Enter执行。代码框里的<code>#</code>开头行是说明，示例输出用来对照，都不需要当成命令执行。只复制自己系统对应的部分。</p>
+<p>需要“在项目文件夹运行”时，Windows可以在文件资源管理器打开这个文件夹，在地址栏输入<code>powershell</code>并按Enter；终端就会从当前文件夹开始。也可以先输入<code>cd "文件夹完整路径"</code>，把引号里的内容换成实际路径；macOS/Linux也用<code>cd</code>切换目录。路径含空格时保留引号。<code>cd</code>只切换工作位置，不会修改文件。</p>
+<p>先建一份笔记，记录“问题、命令、看到什么、能证明什么、下一步”。教程里的<code>192.168.1.23</code>是一套贯穿讲解的示例，你家也许是<code>192.168.31.x</code>或<code>10.x.x.x</code>；需要测试本地设备时，应换成你实际查到的地址。</p>
+<p>第18课的网页实验使用Python 3。先运行<code>python --version</code>检查是否可用；有些macOS/Linux要用<code>python3 --version</code>，Windows也可能用<code>py -3 --version</code>。后文统一写<code>python</code>，请换成自己能运行的名称。没有Python可从<a href="https://www.python.org/downloads/" target="_blank" rel="noopener noreferrer">Python官网</a>安装；暂时不安装也可以完成配置查看、DNS查询和浏览器观察练习。Docker只用于第14课的可选进阶实验。</p>
+<div class="note"><span class="kicker">实验约定。</span>只操作自己的设备或已获授权的实验环境。基础排查先查看、再验证，不需要关闭整个防火墙、重置路由器或购买云服务器。截图分享前遮住密码、令牌、公网地址及其他敏感配置。</div>
+
+</section>
+<section class="chapter" id="ch1" tabindex="-1" aria-labelledby="ch1-title"><h2 id="ch1-title">第1课　先看懂你身边的网络</h2><p class="lead">你现在看到网页，背后至少经历了“设备接入→获取网络配置→解析域名→选择路径→连接服务器→交换数据”这一串动作。</p>
+<h3 id="ch1-s1" tabindex="-1">1.1 家庭网络里到底有哪些设备</h3><p>最常见的家庭结构是：运营商的光纤进入光猫，光猫把信号交给路由器，路由器再通过网线或Wi-Fi连接电脑、手机、电视、NAS等设备。有些运营商把“光猫＋路由器＋Wi-Fi”做成一体机，因此你看到的盒子可能比图里少。</p>
+<div class="diagram" role="figure" aria-labelledby="ch1-fig1"><div class="diagram-title" id="ch1-fig1">图1-1　典型家庭网络</div><div class="flow"><div class="node">互联网<small>Internet</small></div><span class="arrow">→</span><div class="node">运营商<small>ISP</small></div><span class="arrow">→</span><div class="node">光猫<small>光/电转换，可能也路由</small></div><span class="arrow">→</span><div class="node">路由器<small>WAN ↔ LAN</small></div><span class="arrow">→</span><div class="node">手机 / 电脑<small>家庭终端</small></div></div></div>
+<div class="grid2"><div class="mini"><b>光猫（ONT/ONU）</b><span>主要负责接入运营商光纤网络。部分设备还集成拨号、NAT、DHCP、Wi-Fi。</span></div><div class="mini"><b>路由器</b><span>把不同网络连接起来。家庭里最常见的是连接“运营商一侧”和“家庭内网一侧”。</span></div><div class="mini"><b>交换机</b><span>主要连接同一局域网里的多台有线设备。它更关心MAC地址，而不是互联网路由。</span></div><div class="mini"><b>无线AP</b><span>让无线设备接入局域网。家用“无线路由器”通常把路由器、交换机、AP做在一个盒子里。</span></div></div>
+<p>把家用网络想成一个小办公室：交换机把几张办公桌接在一起，AP让手机不用插网线也能加入，路由器负责通往外部网络。一个盒子能兼任好几项工作，所以认设备时，重点看它连接哪两侧、承担什么功能，别只看外壳上的名字。<code>LAN</code>通常是家里这一侧，<code>WAN</code>通常是通向上游网络的一侧。</p>
+<p>“接口”是设备收发网络数据的接入口，可以是有线网口、无线网卡，也可以是软件创建的虚拟接口。“协议”是双方共同遵守的通信规则。电脑会把应用数据拆分、封装成较小的传输单位，IP这一层称为“数据包”，以太网这一层称为“帧”。像货物装进箱子再贴上运输标签，每一层增加自己需要的信息；这里先认名字，后面逐层看它们怎样配合。</p>
+<h3 id="ch1-s2" tabindex="-1">1.2 公网、内网、局域网、互联网</h3><p><span class="term">内网</span>是一个组织自己控制的网络，例如你家的192.168.1.0/24、公司的办公网。<span class="term">公网</span>通常指全球互联网中可被全局路由的地址空间和网络。<span class="term">互联网</span>则是大量独立网络互相连接形成的“网络之网”。</p>
+<div class="note"><span class="kicker">不要把“Wi-Fi”和“互联网”画等号。</span>Wi-Fi只是一种局域网接入方式。你可以连上Wi-Fi却没有互联网；也可以完全不用Wi-Fi，通过网线、5G或光纤上网。</div>
+<h3 id="ch1-s3" tabindex="-1">1.3 一台电脑上网前需要知道什么</h3><p>以家庭IPv4网络通过域名访问网站为例，通常需要下面四类配置：</p>
+<table><caption>表1-1　一台电脑上网前需要知道什么</caption><thead><tr><th scope="col">信息</th><th scope="col">例子</th><th scope="col">作用</th></tr></thead><tbody><tr><td>IP地址</td><td><code>192.168.1.23</code></td><td>我是谁、别人怎样找到我</td></tr><tr><td>子网前缀/掩码</td><td><code>/24</code> 或 <code>255.255.255.0</code></td><td>哪些地址和我在同一网段</td></tr><tr><td>默认网关</td><td><code>192.168.1.1</code></td><td>目标不在本地时，把包交给谁</td></tr><tr><td>DNS服务器</td><td><code>192.168.1.1</code> 或公共DNS</td><td>把域名查成IP地址</td></tr></tbody></table>
+<p>家庭IPv4网络通常通过DHCP自动取得这些配置。首次获取租约常经历Discover（发现）、Offer（提供）、Request（请求）、ACK（确认）四步，简称DORA；续租不必重新走完整四步。IPv6的配置机制有所不同，见第2课。</p>
+<p>DHCP像接待处发放临时座位和出门路线：电脑说“我刚来，需要一套配置”，服务器给出可用地址，电脑确认使用，服务器记录租约。租约就是“这套地址可以用到什么时候”。同一网络里如果两台设备手动写了同一个IP，就像两个人拿到同一个座位号，通信可能时好时坏。</p>
+<h3 id="ch1-s4" tabindex="-1">1.4 互联网为什么能把全球网络接起来</h3><p>互联网不是一台超级交换机，也没有一个“总路由器”。它由运营商、云厂商、学校、企业、内容网络等大量自治网络组成。这些网络内部自己决定怎么路由，网络与网络之间再通过BGP交换“哪些IP前缀应该往哪里走”的信息。第16课会把这件事讲清楚。</p>
+<div class="quiz"><b>小测：手机显示Wi-Fi满格，但网页打不开。能说明什么？</b><div class="answer">满格通常只反映收到的无线信号较强，不能证明干扰、竞争、丢包、AP回程、DNS或互联网出口正常。</div><button>看答案</button></div>
+
+<h3 id="ch1-practice" tabindex="-1">1.5 动手：画出你家的网络</h3>
+<p>先不用打开路由器设置。观察网线和设备标签，画出“入户线路→光猫→路由器→电脑/手机”。如果一台盒子兼任多种功能，就在旁边分别写下。笔记本接Wi-Fi时，也请找出Wi-Fi后面通过什么设备连向运营商。</p>
+<p>再回答三个问题：哪一段是无线？路由器的WAN口接向哪里？如果运营商线路暂时断开，手机和家里的网络打印机还可能互相通信吗？在没有客户端隔离等限制时，本地通信仍可能正常，因为它不一定经过互联网出口。</p>
+<div class="tip note"><span class="kicker">完成标志：</span>能对着自己的图，指出本地连接和外网出口。认不出的设备先记型号和接线，别为补全图而拔线或重置。</div>
+
+<p class="source-note">本课核查依据：<a href="https://www.rfc-editor.org/info/rfc2131/" target="_blank" rel="noopener noreferrer">RFC 2131：DHCP</a>。</p>
+</section>
+
+<section class="chapter" id="ch2" tabindex="-1" aria-labelledby="ch2-title"><h2 id="ch2-title">第2课　IP地址：先搞懂“你在哪里”</h2><p class="lead">IP地址不是设备的“身份证号”，更像某个网络接口在某个网络环境里的“邮寄地址”。同一台电脑可以同时有多个IP，换网络后IP也可能变化。</p>
+<h3 id="ch2-s1" tabindex="-1">2.1 IPv4长什么样</h3><p>IPv4地址是32位二进制数，通常写成四个0～255的十进制数，例如：</p><pre><code>192.168.1.23
+11000000.10101000.00000001.00010111</code></pre>
+<p>人类习惯看第一行，机器处理的是第二行所代表的比特。</p>
+<p>一个比特只有0和1两种取值，8个比特合成一组，能表示256种组合，所以每组写成0～255。现在不用背二进制换算；先学会识别四段数字，检查有没有超过255的数。<code>192.168.1.300</code>就不是合法的IPv4写法。</p>
+<h3 id="ch2-s2" tabindex="-1">2.2 公网IP与私有IP</h3><p>RFC 1918保留了三段IPv4地址给私有网络使用：</p><table><caption>表2-1　公网IP与私有IP</caption><thead><tr><th scope="col">私有地址块</th><th scope="col">常见场景</th></tr></thead><tbody><tr><td><code>10.0.0.0/8</code></td><td>企业、云VPC、大型内网</td></tr><tr><td><code>172.16.0.0/12</code></td><td>企业、容器、实验环境</td></tr><tr><td><code>192.168.0.0/16</code></td><td>家庭、小型办公室</td></tr></tbody></table>
+<p>这些地址不会在全球互联网中直接路由，所以你家和邻居家都可以有一台<code>192.168.1.10</code>。两个独立网络可以重复使用这些地址；通过VPN或专线互联时，重叠地址也会造成路由歧义，需要重新规划地址或实施转换。</p>
+<p>私有IP有点像各家公司的内部分机号：A公司的“分机23”和B公司的“分机23”可以同时存在，打通两家公司后就要说清楚是哪一个。这个比方只说明地址可以在独立网络重复使用；真实通信还要看子网、路由和访问规则。</p>
+<h3 id="ch2-s3" tabindex="-1">2.3 127.0.0.1和0.0.0.0</h3><div class="grid2"><div class="mini"><b><code>127.0.0.1</code>：回环</b><span>属于127.0.0.0/8回环地址块。访问它是在访问“本机自己”，数据不会被正常转发到外部网络。</span></div><div class="mini"><b><code>0.0.0.0</code>：未指定地址</b><span>作为目标地址不是普通公网地址。在服务监听语境中，常被API解释为“绑定所有本机IPv4接口”。具体语义要看上下文。</span></div></div>
+<div class="diagram" role="figure" aria-labelledby="ch2-fig1"><div class="diagram-title" id="ch2-fig1">图2-1　监听地址差异</div><div class="flow"><div class="node">127.0.0.1:8080<small>只在回环接口接收</small></div><span class="arrow">≠</span><div class="node">0.0.0.0:8080<small>通常代表所有IPv4接口</small></div></div></div>
+<p>例如一台机器同时有<code>127.0.0.1</code>和<code>192.168.1.20</code>。程序只监听<code>127.0.0.1:8080</code>时，自己能打开，局域网别的电脑通常打不开；监听<code>0.0.0.0:8080</code>时，程序会在所有IPv4接口上接收，但外界是否真的能访问，还取决于防火墙、路由、NAT和安全组。</p>
+<h3 id="ch2-s4" tabindex="-1">2.4 还有哪些特殊IPv4地址</h3><table><caption>表2-2　还有哪些特殊IPv4地址</caption><thead><tr><th scope="col">地址</th><th scope="col">你应该记住的含义</th></tr></thead><tbody><tr><td><code>169.254.0.0/16</code></td><td>IPv4链路本地地址。设备拿不到正常配置时可能自分配，用于同一链路内通信，不能当普通互联网地址。</td></tr><tr><td><code>100.64.0.0/10</code></td><td>运营商共享地址空间，常用于CGNAT。它既不是普通RFC1918私网，也不是全球可路由公网地址。</td></tr><tr><td><code>255.255.255.255</code></td><td>受限广播地址，只用于本地链路特定广播语义。</td></tr></tbody></table>
+<h3 id="ch2-s5" tabindex="-1">2.5 动态IP为什么会变</h3><p>普通家庭网络里，至少可能有两套“动态分配”：</p><div class="diagram" role="figure" aria-labelledby="ch2-fig2"><div class="diagram-title" id="ch2-fig2">图2-2　两套动态地址</div><div class="flow"><div class="node">运营商<small>给家庭WAN侧地址</small></div><span class="arrow">→</span><div class="node">家庭路由器<small>WAN IP</small></div><span class="arrow">｜</span><div class="node">DHCP<small>给家庭设备LAN地址</small></div><span class="arrow">→</span><div class="node">电脑<small>192.168.1.23</small></div></div></div>
+<p>公网地址是否会变，取决于运营商的接入与地址分配策略。重拨、租约更新、线路迁移、设备更换或运营商维护都可能导致变化；也可能几个月都不变。<strong>“动态”表示没有固定承诺，不表示必须定期变化。</strong></p>
+<p>公网IPv4地址数量有限，而联网设备越来越多。IPv6把地址长度从32位扩到128位，可以安排大得多的地址空间。IPv4和IPv6像两套不同的地址格式；设备同时支持两套称为“双栈”。它们常并存，不要求你先关掉其中一套才能上网。</p>
+<h3 id="ch2-s6" tabindex="-1">2.6 IPv6：128位地址时代</h3><p>IPv6把地址长度从32位扩大到128位。例如：</p><pre><code>2001:db8:1234:5678::20</code></pre>
+<p><code>2001:db8::/32</code>专门用于文档示例，真实部署不要照抄。IPv6的地址空间极大，设计上不依赖IPv4时代那种“大量终端共享一个公网IPv4”的NAT模式。IPv6仍然需要防火墙：<strong>可全球路由，不等于应该允许全球主动访问。</strong></p>
+<div class="note"><span class="kicker">IPv6配置不只靠DHCP。主机可依据路由器通告（RA）获得前缀并通过SLAAC生成地址，也可使用DHCPv6分配地址或提供其他参数；默认路由通常由RA告知。现代客户端经常同时拥有IPv4和IPv6。</span>当一个域名同时返回A和AAAA记录时，客户端可以根据网络可用性和性能选择连接路径；“Happy Eyeballs”类算法就是为减少双栈环境中的等待而设计。</div>
+<h3 id="ch2-s7" tabindex="-1">2.7 动手查看自己的地址</h3><pre><code># Windows
+ipconfig /all
+
+# Linux
+ip addr
+ip route
+
+# macOS
+ifconfig
+route -n get default</code></pre>
+
+<h3 id="ch2-practice" tabindex="-1">2.8 动手：给自己的网络配置拍一张“快照”</h3>
+<p>运行本课前面的查看命令。Windows用<code>ipconfig /all</code>；Linux用<code>ip addr</code>和<code>ip route</code>；macOS用<code>ifconfig</code>和<code>route -n get default</code>，DNS可在网络设置中查看。多块网卡时，先找当前连接Wi-Fi或网线、实际承担上网的那一块。虚拟网卡和已断开的网卡先放一边。</p>
+<pre><code>示例记录（这是对照格式，不要执行）：
+正在使用的接口：Wi-Fi
+IPv4地址：192.168.1.23
+子网掩码：255.255.255.0，也就是/24
+默认网关：192.168.1.1
+DNS服务器：192.168.1.1
+IPv6：有 / 无（按实际情况记录）</code></pre>
+<p>网关和DNS恰好相同很常见，表示同一个路由器同时承担了出口和DNS转发等工作，它们的功能仍然不同。网关为空时，可能只能做本地通信；仅看到169.254地址时，先查是否未获得正常DHCP配置。不要照抄上面的地址去改自己的电脑。</p>
+<div class="quiz"><b>小测：两台不相连的家庭路由器都给电脑分配192.168.1.23，会立刻冲突吗？</b><div class="answer">不会因为地址相同就跨家冲突。私有地址能在独立网络重复使用；把这些网络通过VPN等方式互联后，需要处理地址重叠。</div><button type="button">看答案</button></div>
+
+<p class="source-note">本课核查依据：<a href="https://www.rfc-editor.org/info/rfc4861/" target="_blank" rel="noopener noreferrer">RFC 4861：IPv6邻居发现与RA</a>；<a href="https://www.rfc-editor.org/info/rfc1918" target="_blank" rel="noopener noreferrer">RFC 1918：私有地址</a>。</p>
+</section>
+
+<section class="chapter" id="ch3" tabindex="-1" aria-labelledby="ch3-title"><h2 id="ch3-title">第3课　子网、网关与路由：数据到底往哪走</h2><p class="lead">“我知道目标IP了”还不够。设备还要判断：目标是不是和我在同一网段？如果不是，我该把包交给哪个下一跳？</p>
+<h3 id="ch3-s1" tabindex="-1">3.1 <code>192.168.1.0/24</code>是什么意思</h3><p><code>/24</code>表示前24位是网络前缀，剩下8位用于区分该网段里的地址。对IPv4来说，一个<code>/24</code>覆盖256个地址，从<code>192.168.1.0</code>到<code>192.168.1.255</code>。传统子网语义下，网络地址和广播地址通常不分给普通主机，因此常见可用主机地址是<code>.1</code>到<code>.254</code>。</p>
+<div class="diagram" role="figure" aria-labelledby="ch3-fig1"><div class="diagram-title" id="ch3-fig1">图3-1　/24：前24位相同</div><div class="flow"><div class="node">192.168.1<small>网络部分</small></div><span class="arrow">＋</span><div class="node">0～255<small>主机部分</small></div></div></div>
+<p>子网掩码<code>255.255.255.0</code>和前缀长度<code>/24</code>表达的是同一件事，只是写法不同。</p>
+<p>把<code>/24</code>读成“前24位用于识别网络”。IPv4总共32位，剩下8位用于区分这一网段里的地址，因此共有2的8次方，也就是256个地址。常见普通<code>/24</code>子网会留出网络地址和广播地址，可分配给接口的通常是254个。斜杠后数字越大，地址块越小。</p>
+<h3 id="ch3-s2" tabindex="-1">3.2 同网段时怎么走</h3><p>电脑A：<code>192.168.1.20/24</code>，电脑B：<code>192.168.1.80/24</code>。在没有更具体路由或特殊策略、且两台设备处于同一二层网络的常见情形下，A根据直连路由向B发送：若邻居缓存没有可用条目，就先用ARP查询B的MAC地址，再在局域网内传输。</p>
+<h3 id="ch3-s3" tabindex="-1">3.3 不同网段时怎么走</h3><p>电脑A要访问<code>8.8.8.8</code>。显然它不在<code>192.168.1.0/24</code>，于是A查询路由表，通常匹配默认路由：</p><pre><code>0.0.0.0/0 via 192.168.1.1</code></pre>
+<p>意思是：没有更具体规则时，下一跳交给<code>192.168.1.1</code>。这里的<code>0.0.0.0/0</code>表示覆盖全部IPv4目的地址的默认前缀。</p>
+<div class="diagram" role="figure" aria-labelledby="ch3-fig2"><div class="diagram-title" id="ch3-fig2">图3-2　跨网段通信</div><div class="flow"><div class="node">192.168.1.20<small>你的电脑</small></div><span class="arrow">→</span><div class="node">192.168.1.1<small>默认网关</small></div><span class="arrow">→</span><div class="node">运营商路由器<small>下一跳</small></div><span class="arrow">→</span><div class="node">更多路由器<small>逐跳转发</small></div><span class="arrow">→</span><div class="node">目标网络</div></div></div>
+<p>默认网关像离开小区时先到的出口。电脑要访问外面的服务器，通常先把这一跳的数据交给路由器；信封里的最终目标IP仍是网站地址，不会因为交给网关就变成网关IP。特殊的代理或地址转换另有机制，先把“下一站”和“最终目的地”分开。</p>
+<h3 id="ch3-s4" tabindex="-1">3.4 路由表像一张“下一站指路表”</h3><p>一条路由通常至少包含：目标前缀、下一跳或出口接口，以及用于选择的度量/优先级。核心规则可以先记成：</p><div class="note"><span class="kicker">先匹配最具体的前缀。</span>例如同时有<code>10.0.0.0/8</code>和<code>10.1.2.0/24</code>，目标<code>10.1.2.50</code>优先走更具体的<code>/24</code>。这叫最长前缀匹配。</div>
+<h3 id="ch3-s5" tabindex="-1">3.5 为什么子网划分有用</h3><p>子网规划直接影响地址管理、转发与安全策略。现实价值主要有三类：</p><div class="grid3"><div class="mini"><b>控制广播范围</b><span>配合VLAN与三层路由划分广播域，减少无关广播；仅修改IP前缀不会隔离二层广播。</span></div><div class="mini"><b>组织和隔离</b><span>办公、服务器、访客、IoT可放在不同网段/VLAN。</span></div><div class="mini"><b>制定路由和安全策略</b><span>网络前缀是路由、ACL、防火墙规则的基本对象。</span></div></div>
+<h3 id="ch3-s6" tabindex="-1">3.6 入门够用的CIDR速算</h3><table><caption>表3-1　入门够用的CIDR速算</caption><thead><tr><th scope="col">前缀</th><th scope="col">IPv4地址数</th><th scope="col">常见直觉</th></tr></thead><tbody><tr><td>/32</td><td>1</td><td>一个具体IPv4地址</td></tr><tr><td>/31</td><td>2</td><td>支持RFC 3021的IPv4点到点链路可用两个地址</td></tr><tr><td>/30</td><td>4</td><td>传统点到点链路常用，通常可分配2个主机地址</td></tr><tr><td>/24</td><td>256</td><td>最常见的教学与小型局域网尺度</td></tr><tr><td>/16</td><td>65,536</td><td>更大的地址块</td></tr><tr><td>/8</td><td>16,777,216</td><td>非常大的IPv4前缀</td></tr></tbody></table>
+<h3 id="ch3-s7" tabindex="-1">3.7 实训</h3><pre><code># Windows
+route print
+tracert example.com
+
+# Linux
+ip route
+traceroute example.com
+
+# macOS
+netstat -rn
+traceroute example.com</code></pre>
+<p>观察默认路由在哪里，再看<code>traceroute/tracert</code>显示的数据包经过了哪些“跳”。注意：某一跳不回应探测，并不等于真实业务流量一定在那里断掉，很多设备会限制或忽略这类探测报文。</p>
+
+<h3 id="ch3-practice" tabindex="-1">3.8 练一遍：给一个小办公室安排地址</h3>
+<p>假设办公室有20台电脑、1台打印机和1个出口路由器，先用<code>192.168.50.0/24</code>作为一个普通局域网。可以规划路由器<code>.1</code>，打印机<code>.10</code>，DHCP给电脑分配<code>.100～.199</code>。地址池就是DHCP允许自动发放的范围；固定设备可做DHCP保留，或使用池外且经过规划的静态地址。</p>
+<p>这样安排便于记忆、避免重复，不是协议强制规定。完整记录还应包括掩码、网关、DNS与设备用途。对于这个普通/24，不把<code>.0</code>和<code>.255</code>分配给普通主机；如果以后连接已有公司网或VPN，还要先查有没有重叠网段。</p>
+<div class="quiz"><b>判断路线：192.168.50.120/24访问192.168.50.10，以及访问192.168.60.10，分别怎样走？</b><div class="answer">在同一二层网络、常见路由配置下，前者属于本地直连网段，先找目标的链路层地址；后者不属于本地/24，需要匹配其他路由，通常交给默认网关。网关还必须知道后续路径，双方的返回路径和访问规则也要允许。</div><button type="button">看答案</button></div>
+<p>看路由表时先找<code>0.0.0.0/0</code>，Windows可能把目标和掩码分成两列，都显示<code>0.0.0.0</code>；IPv6的默认前缀是<code>::/0</code>。再找当前局域网对应的直连路由。暂时不懂每列没关系，先读出“去哪里、交给谁、从哪个接口走”。</p>
+
+<p class="source-note">本课核查依据：<a href="https://www.rfc-editor.org/info/rfc3021" target="_blank" rel="noopener noreferrer">RFC 3021：IPv4点到点/31</a>。</p>
+</section>
+
+<section class="chapter" id="ch4" tabindex="-1" aria-labelledby="ch4-title"><h2 id="ch4-title">第4课　MAC、ARP与局域网：IP下面还有一层</h2><p class="lead">IP告诉你“逻辑上要去哪里”，而在以太网局域网中，真正把一帧数据交给本地下一跳时，还要用到链路层地址。</p>
+<h3 id="ch4-s1" tabindex="-1">4.1 MAC地址是什么</h3><p>以太网接口通常有一个链路层地址，常写成：</p><pre><code>3C:52:82:AB:10:7F</code></pre>
+<p>它和IP不是同一个层次。IP可以随网络变化；MAC通常由接口/软件配置决定，现代操作系统也可能为隐私使用随机化MAC，因此不要把它理解成“永不变化的硬件身份证”。</p>
+<p>沿用投递的比方：IP说明最终要到哪个网络地址，MAC帮助数据在当前这段局域网里交给下一台设备。经过路由器进入下一段以太网时，会重新封装链路层帧，源、目的MAC通常随这一跳改变。MAC只解决本地这一段的交付，不能拿一个远方网站的MAC直接横跨互联网找它。</p>
+<h3 id="ch4-s2" tabindex="-1">4.2 ARP解决什么问题</h3><p>假设A知道下一跳IP是<code>192.168.1.1</code>，但以太网帧还需要目的MAC。ARP的工作就是在本地IPv4网络里问：</p><div class="diagram" role="figure" aria-labelledby="ch4-fig1"><div class="diagram-title" id="ch4-fig1">图4-1　ARP：知道IP，寻找本地链路地址</div><div class="flow"><div class="node">A<small>谁是192.168.1.1？</small></div><span class="arrow">⇒</span><div class="node">局域网广播</div><span class="arrow">⇒</span><div class="node">网关<small>192.168.1.1是我，MAC=…</small></div></div></div>
+<p>得到结果后，操作系统会缓存一段时间，避免每个包都重新询问。</p>
+<p>ARP像在同一房间里问：“谁是192.168.1.1？请告诉我你的MAC。”请求通常广播出去，拥有这个IPv4地址的设备回答，电脑把结果暂存下来。广播的意思是在当前广播域内向大家发送，普通路由器不会把这种ARP询问原样转到全球网络。缓存过期后还可能重新询问。</p>
+<h3 id="ch4-s3" tabindex="-1">4.3 交换机与路由器不是一回事</h3><table><caption>表4-1　交换机与路由器不是一回事</caption><thead><tr><th scope="col">设备</th><th scope="col">最核心的转发依据</th><th scope="col">典型作用</th></tr></thead><tbody><tr><td>二层交换机</td><td>MAC地址表</td><td>在同一二层网络里转发以太网帧</td></tr><tr><td>路由器</td><td>IP路由表</td><td>在不同IP网络之间转发数据包</td></tr></tbody></table>
+<p>家用无线路由器常常同时内置一个小交换机，所以物理上是一个盒子，逻辑上却在做多种工作。</p>
+<h3 id="ch4-s4" tabindex="-1">4.4 VLAN：在同一套交换设备上划分多个二层网络</h3><p>企业里不可能“每个部门买一套完全独立交换机”。VLAN允许在交换网络中建立逻辑隔离。例如：</p><div class="diagram" role="figure" aria-labelledby="ch4-fig2"><div class="diagram-title" id="ch4-fig2">图4-2　一个交换基础设施，多个逻辑广播域</div><div class="flow"><div class="node">VLAN 10<small>办公终端</small></div><div class="node">VLAN 20<small>服务器</small></div><div class="node">VLAN 30<small>访客Wi-Fi</small></div><div class="node">VLAN 40<small>IoT设备</small></div></div></div>
+<p>不同VLAN之间如果要通信，通常需要三层路由，并可借此加入ACL/防火墙策略。这里先理解用途，不必一开始就背802.1Q标签字段。</p>
+<h3 id="ch4-s5" tabindex="-1">4.5 一次局域网访问到底发生了什么</h3><ol><li>A查询路由表；这里假设B在同一二层网络，并匹配直连路由。</li><li>若邻居缓存没有B的可用条目，A通过ARP查询B的MAC。</li><li>A封装以太网帧，目的MAC写B。</li><li>交换机查MAC地址表；已知目的MAC时转发到相应端口，未知单播则在该VLAN内向其他端口泛洪。</li><li>B解封装，交给IP层，再交给TCP/UDP和应用。</li></ol>
+<h3 id="ch4-s6" tabindex="-1">4.6 实训</h3><pre><code># Windows
+arp -a
+getmac
+
+# Linux
+ip neigh
+ip link
+
+# macOS
+arp -a
+ifconfig</code></pre>
+<div class="note"><span class="kicker">IPv6不使用ARP。</span>IPv6使用Neighbor Discovery（邻居发现）等机制完成类似“邻居解析、路由器发现”等工作。</div>
+
+<h3 id="ch4-practice" tabindex="-1">4.7 动手：找出“下一站”的MAC</h3>
+<p>从第2课笔记抄出真实网关地址，先运行<code>ping 网关地址</code>，把中文部分换成地址。Windows默认发几次后停止；Linux/macOS可用<code>ping -c 4 网关地址</code>。随后Windows/macOS运行<code>arp -a</code>，Linux运行<code>ip neigh</code>。</p>
+<p>寻找网关IP对应的MAC或邻居项。第一次通信后，系统常会留下记录，但不保证每台设备都响应ping；没有对应项、显示未完成或失败时，要结合接口、无线接入和实际连通性检查。只查看，不必清空ARP缓存。</p>
+<p>如果你和同一局域网内的打印机通信，通常查打印机的MAC；如果你访问远方网站，通常查本地网关的MAC。电脑不会对全互联网广播“网站服务器的MAC是什么”。</p>
+<div class="quiz"><b>小测：把访客Wi-Fi取成另一个名字，就能保证它和家庭设备隔离吗？</b><div class="answer">不能。不同SSID只是不同无线名称，是否隔离要看VLAN、客户端隔离、路由和防火墙配置。需要用实际访问测试验证，例如访客能否到达家庭NAS；“换个名字”本身不构成安全边界。</div><button type="button">看答案</button></div>
+
+</section>
+
+<section class="chapter" id="ch5" tabindex="-1" aria-labelledby="ch5-title"><h2 id="ch5-title">第5课　TCP、UDP与端口：找到机器以后，还要找到程序</h2><p class="lead">IP地址把数据送到某台主机，端口再帮助传输层把数据交给正确的应用。TCP与UDP则定义了“怎样运送”。</p>
+<h3 id="ch5-s1" tabindex="-1">5.1 端口是什么</h3><p>端口号是16位数字，范围0～65535。一个常见服务地址写成：</p><pre><code>203.0.113.10:443</code></pre>
+<p>前半部分是IP，后半部分是端口。IANA把端口范围分为系统端口0～1023、用户端口1024～49151、动态/私有端口49152～65535。注意：端口号只是约定和标识，看到443不代表流量一定安全，看到8080也不代表一定是Web服务。</p>
+<p>用办公楼作比方，IP是楼的地址，端口像接待窗口编号。但窗口号还要连同TCP或UDP一起看：<code>53/TCP</code>和<code>53/UDP</code>是不同的通信端点。浏览器、聊天工具能同时联网，是操作系统在依据地址、端口和协议把数据分给对应的连接与程序。</p>
+<h3 id="ch5-s2" tabindex="-1">5.2 TCP：可靠、有序的字节流</h3><p>TCP会建立连接，提供按序字节流，并处理确认、重传、流量控制等问题。先抓住三个动作：</p><div class="diagram" role="figure" aria-labelledby="ch5-fig1"><div class="diagram-title" id="ch5-fig1">图5-1　TCP三次握手（简化）</div><div class="flow"><div class="node">客户端<small>SYN</small></div><span class="arrow">→</span><div class="node">服务器<small>SYN + ACK</small></div><span class="arrow">→</span><div class="node">客户端<small>ACK，连接建立</small></div></div></div>
+<p>“可靠”不等于“永不丢包”。恰恰相反，网络可能丢包，TCP通过序号、确认、超时和重传把这种不可靠性尽量屏蔽给上层应用。</p>
+<p>TCP有点像按页码寄一份材料：收到乱序的页先整理，少了一页设法补传，最后向应用交出连续的字节。TCP不知道哪些字节算“一条消息”，应用还要自己约定分隔方式。三次握手是双方先交换确认“彼此能收发、从哪个序号开始”的过程；它不负责核实网站身份，身份验证要看TLS等机制。</p>
+<h3 id="ch5-s3" tabindex="-1">5.3 UDP：最小机制的数据报传输</h3><p>UDP不建立类似TCP的可靠字节流连接，也不替应用保证重传和顺序。它提供的是较轻量的数据报接口。DNS传统查询、实时音视频、游戏，以及QUIC底层都可能使用UDP。</p>
+<div class="grid2"><div class="mini"><b>TCP更像“有签收和补发机制的物流”</b><span>应用更容易得到可靠、有序的数据流，但协议状态和丢包恢复会带来额外机制。</span></div><div class="mini"><b>UDP更像“直接发独立包裹”</b><span>基础机制少，但上层协议可以自己决定要不要确认、重传、排序、加密。</span></div></div>
+<div class="warn note"><span class="kicker">不要背成“TCP慢、UDP快”。</span>真实性能取决于协议设计、网络状况、实现、拥塞控制和应用需求。QUIC就是一个典型反例：它跑在UDP之上，却自己实现可靠传输、拥塞控制、多路流和安全机制。</div>
+<p>UDP更像一次投递一张便条：保留这张便条的边界，但协议本身不承诺补发、排序或一定到达。应用可以按需要自己加上这些能力。语音通话有时宁可丢掉一小段旧声音，也不愿等很久再播放；文件下载则需要把内容补齐。选择哪种机制要看用途。</p>
+<h3 id="ch5-s4" tabindex="-1">5.4 服务端端口与客户端临时端口</h3><p>你访问HTTPS网站时，服务器通常监听443；客户端本地会临时选一个端口，例如：</p><pre><code>客户端 192.168.1.23:53142  →  203.0.113.10:443</code></pre>
+<p>服务器回复时反过来：</p><pre><code>203.0.113.10:443  →  192.168.1.23:53142</code></pre>
+<p>因此“访问443”不代表你的电脑只用443。客户端往往使用临时源端口去连接服务器的固定服务端口。</p>
+<h3 id="ch5-s5" tabindex="-1">5.5 Socket可以怎么理解</h3><p>在工程语境里，socket是操作系统提供给应用的网络通信接口。一个具体连接通常由协议和两端地址共同标识，例如TCP连接可以用“五元组”理解：</p><pre><code>源IP + 源端口 + 目标IP + 目标端口 + 传输协议</code></pre>
+<h3 id="ch5-s6" tabindex="-1">5.6 常见端口</h3><table><caption>表5-1　常见端口</caption><thead><tr><th scope="col">端口</th><th scope="col">常见服务</th><th scope="col">备注</th></tr></thead><tbody><tr><td>22/TCP</td><td>SSH</td><td>远程登录与安全隧道常见</td></tr><tr><td>53/UDP、TCP</td><td>DNS</td><td>DNS并不只使用UDP</td></tr><tr><td>80/TCP</td><td>HTTP</td><td>IANA登记的HTTP服务端口</td></tr><tr><td>443/TCP、UDP</td><td>HTTPS</td><td>TCP常承载HTTP/1.1、HTTP/2；UDP 443常见于HTTP/3/QUIC</td></tr><tr><td>3306/TCP</td><td>MySQL</td><td>默认约定，不应直接暴露公网</td></tr><tr><td>3389/TCP/UDP</td><td>RDP</td><td>远程桌面相关</td></tr></tbody></table>
+<h3 id="ch5-s7" tabindex="-1">5.7 看谁在监听</h3><pre><code># Windows
+netstat -ano
+
+# Linux
+ss -lntup
+
+# macOS / Linux
+lsof -i -P -n</code></pre>
+<div class="note"><span class="kicker">“程序监听了”与“外网能访问”是两回事。</span>程序监听只是第一关，后面还可能有主机防火墙、云安全组、路由、NAT、运营商CGNAT等多层限制。</div>
+
+<h3 id="ch5-practice" tabindex="-1">5.8 动手：在连接列表里分清“窗口”和“通话”</h3>
+<p>运行本课的<code>netstat -ano</code>、<code>ss</code>或<code>lsof</code>命令。重点看本地地址、远端地址和状态。<code>LISTEN</code>或<code>LISTENING</code>表示TCP端口在等待连接；<code>ESTABLISHED</code>表示已有TCP连接。UDP没有同样的TCP状态含义，不要因没写LISTEN就认定UDP服务没运行。</p>
+<p>例如电脑的<code>192.168.1.23:53124</code>连接服务器的<code>203.0.113.25:443</code>，前一个是客户端临时端口，后一个是服务器服务端口。这里的公网地址仅作说明，不能拿它实际测试。浏览器通常不需要占住本机443来访问HTTPS。</p>
+<div class="quiz"><b>小测：网站同时收到很多用户访问443，为什么不会全部混成一条连接？</b><div class="answer">TCP连接由两端的地址和端口共同区分。用户、临时端口等组合不同，连接就能区分；NAT也会维护相应转换状态。端口号只是识别连接所需信息的一部分。</div><button type="button">看答案</button></div>
+<div class="tip note"><span class="kicker">完成标志：</span>能从一条TCP记录里指出本地端口、远端端口和状态。权限不够看不到进程名时，先保留可见的连接证据，不必为识别端口立即提权。</div>
+
+</section>
+
+<section class="chapter" id="ch6" tabindex="-1" aria-labelledby="ch6-title"><h2 id="ch6-title">第6课　NAT、端口映射与家庭上网</h2><p class="lead">这一课解释两个常见的家庭上网问题。它解释了：为什么家里十几台设备可以共用一个IPv4上网，以及为什么你在家里开了服务器，外网却不一定能连进来。</p>
+<h3 id="ch6-s1" tabindex="-1">6.1 NAT到底在改什么</h3><p>NAT是地址转换的总称。家庭IPv4最常见的是带端口转换的NAT/PAT：许多私网地址通过不同端口映射到一个外部地址。</p>
+<div class="diagram" role="figure" aria-labelledby="ch6-fig1"><div class="diagram-title" id="ch6-fig1">图6-1　多个家庭设备共享一个外部IPv4（简化）</div><div class="flow"><div class="node">192.168.1.10:52001<small>电脑</small></div><div class="node">192.168.1.11:52002<small>手机</small></div><span class="arrow">→</span><div class="node">家庭路由器<small>NAT/PAT表</small></div><span class="arrow">→</span><div class="node">198.51.100.20<small>外部看到的地址</small></div></div></div>
+<p>路由器会维护状态表，知道返回到某个外部端口的流量应该交给哪台内网设备。外部网站通常看不到你真实的<code>192.168.1.x</code>。</p>
+<p>NAT/PAT像前台替几个人向外打电话，并记下一张转接表：“外面这个通话，对应里面哪台设备的哪个端口”。回复回来时按表转交。它主要解决地址转换；前台并不会自动知道，外面突然打来的一个新电话该找里面的谁。实际是否放行还由防火墙和连接跟踪等规则共同决定。</p>
+<h3 id="ch6-s2" tabindex="-1">6.2 为什么“内网主动出去”容易，“公网主动进来”困难</h3><p>当内网设备先发起连接时，NAT设备可以顺手建立映射状态；而一个陌生公网数据包突然到达路由器，如果没有已有状态或静态规则，路由器不知道该交给哪台内网设备。</p>
+<h3 id="ch6-s3" tabindex="-1">6.3 端口映射是什么</h3><p>端口映射（Port Forwarding）就是人为建立一条固定转发规则：</p><div class="diagram" role="figure" aria-labelledby="ch6-fig2"><div class="diagram-title" id="ch6-fig2">图6-2　外部端口 → 内部主机端口</div><div class="flow"><div class="node">公网IP:50000<small>外部访问入口</small></div><span class="arrow">→</span><div class="node">路由器<small>端口转发规则</small></div><span class="arrow">→</span><div class="node">192.168.1.50:80<small>内网Web服务</small></div></div></div>
+<p>公网端口和内网端口可以不同，例如公网50000映射到内网80。所谓“公网端口”，并不是一种新类型端口，只是“一个可从外部地址访问的端口位置”的口语说法。</p>
+<h3 id="ch6-s4" tabindex="-1">6.4 公网IP会不会变</h3><p>普通家庭宽带常使用动态地址：运营商可以在连接建立、租约更新、重拨或网络调整时重新分配。也可能长期维持同一地址，但只要合同没有承诺静态地址，就不该把它当永久不变。</p>
+<p>如果要长期从外部访问一个动态公网IP，可以使用DDNS：域名记录随公网IP变化自动更新。它解决的是“地址变了以后名字还能找到它”，不解决CGNAT和防火墙问题。</p>
+<h3 id="ch6-s5" tabindex="-1">6.5 CGNAT：你家路由器外面可能还有一层NAT</h3><p>由于IPv4地址紧张，运营商可能让多个家庭再共享一个公网IPv4。RFC 6598专门保留<code>100.64.0.0/10</code>给运营商共享地址空间。</p>
+<div class="diagram" role="figure" aria-labelledby="ch6-fig3"><div class="diagram-title" id="ch6-fig3">图6-3　双层NAT / CGNAT</div><div class="flow"><div class="node">电脑<small>192.168.1.20</small></div><span class="arrow">→</span><div class="node">家庭路由器<small>100.72.8.9</small></div><span class="arrow">→</span><div class="node">运营商CGNAT<small>203.0.113.8</small></div><span class="arrow">→</span><div class="node">互联网</div></div></div>
+<p>这时你只能控制家庭路由器，控制不了运营商的NAT，所以在家庭路由器上做端口映射仍可能无效。</p>
+<h3 id="ch6-s6" tabindex="-1">6.6 怎么初步判断自己是否在CGNAT后面</h3><ol><li>进入路由器查看WAN IPv4地址。</li><li>再从浏览器访问可信的“查看公网IP”服务。</li><li>比较同一出口路径上的IPv4地址。先关闭会改变出口的VPN或代理；若WAN地址与外部观察值仍不一致，很可能存在上游NAT，但不能只凭这一点断定运营商CGNAT。</li><li>如果WAN地址属于<code>100.64.0.0/10</code>，这是CGNAT的强信号；如果是<code>10/8</code>、<code>172.16/12</code>、<code>192.168/16</code>，也说明上游存在私网层。</li></ol>
+<h3 id="ch6-s7" tabindex="-1">6.7 内网穿透是什么</h3><p>当外部无法直接主动连接内网时，可以让内网设备先主动连到一个公网可达的中继/协调服务，再通过反向隧道、P2P打洞或虚拟组网建立访问路径。不同产品实现差异很大，常见思路包括：</p><div class="grid3"><div class="mini"><b>反向隧道</b><span>内网端主动建立长期出站连接，由公网端转发请求。</span></div><div class="mini"><b>NAT穿透</b><span>借助STUN/ICE等探测与协商，尽量建立点对点路径；失败时可能需要TURN中继。</span></div><div class="mini"><b>虚拟组网</b><span>给设备创建一个加密覆盖网络，让分散设备像在同一私网中通信。</span></div></div>
+<div class="danger note"><span class="kicker">安全提醒：</span>“能从公网访问”不是目标本身。开放端口前先问：服务是否需要直接暴露？是否有强认证？是否能限制来源IP？是否能放在VPN/零信任访问层后面？</div>
+
+<h3 id="ch6-practice" tabindex="-1">6.8 先判断方向，再考虑端口映射</h3>
+<p>场景A：电脑主动打开网站。路由器通常为这次出站通信建立转换状态，让返回数据找到电脑。场景B：朋友从外面主动访问你家的相册服务。这是新的入站连接，需要明确的服务入口；常见家庭IPv4环境里可能涉及端口映射，还要检查公网地址、上游NAT和访问控制。两种方向不要混在一起。</p>
+<p>DDNS像不断更新门牌地址的通讯录，只解决“地址变化后怎样找到”的问题，不能让运营商CGNAT自动替你开门。内网穿透通常借助设备主动连出的通道或中继，也仍然需要认证、权限与维护。</p>
+<p>本课先做纸上检查：服务在哪台机器、监听哪个地址和端口、谁要访问、走IPv4还是IPv6、经过几层路由和防火墙。暂时不要把演示网页或数据库发布到公网。家庭公网入站测试应从真正的外部网络验证，在家里访问自家公网地址的结果还可能受NAT回流能力影响。</p>
+<div class="quiz"><b>小测：IPv6设备有全球单播地址，就一定能从外网连进来吗？</b><div class="answer">不一定。地址可被全球路由与服务可达是两件事；运营商路径、路由器IPv6防火墙、主机防火墙和应用监听都可能限制入站。IPv6通常不依赖家庭IPv4式NAT，也仍需访问控制。</div><button type="button">看答案</button></div>
+
+</section>
+<section class="chapter" id="ch7" tabindex="-1" aria-labelledby="ch7-title"><h2 id="ch7-title">第7课　域名体系：给互联网地址起一个人类能记住的名字</h2><p class="lead">域名不是服务器，也不是IP地址。它更像一个可管理、可解析的名字。真正把名字变成网络地址的工作，由DNS完成。</p>
+<h3 id="ch7-s1" tabindex="-1">7.1 为什么需要域名</h3><p>人类不擅长记住大量IP地址，而且服务器地址还可能变化。如果每个网站都要求用户背<code>203.0.113.25</code>这样的数字，互联网几乎无法正常使用。因此我们用<code>example.com</code>这样的名字，再让DNS去查它当前对应什么。</p>
+<div class="diagram" role="figure" aria-labelledby="ch7-fig1"><div class="diagram-title" id="ch7-fig1">图7-1　名字与地址的关系</div><div class="flow"><div class="node">example.com<small>域名</small></div><span class="arrow">→</span><div class="node">DNS<small>查询与解析</small></div><span class="arrow">→</span><div class="node">203.0.113.25<small>IP地址之一</small></div><span class="arrow">→</span><div class="node">服务器 / CDN</div></div></div>
+<div class="note"><span class="kicker">三句话纠偏：</span>一个域名可以对应多个IP；一个IP也可以承载很多域名；一个网站也可能由大量服务器、CDN节点和后台服务共同组成。</div>
+<h3 id="ch7-s2" tabindex="-1">7.2 域名是分层的</h3><p>域名从右往左看层级：</p><pre><code>www.shop.example.com.
+从右向左：
+.          根
+com        顶级域
+example    com之下的标签：example.com
+shop       example.com之下：shop.example.com
+www        shop.example.com之下：www.shop.example.com</code></pre>
+<p>在日常中文里，人们经常把<code>example.com</code>叫“主域名”或“根域名”，但严格的DNS术语中，真正的根是最右侧那个通常被省略的“.”。教程和运维文档里还常见<em>apex domain</em>、<em>zone apex</em>、裸域名等说法，语境不同要注意。</p>
+<h3 id="ch7-s3" tabindex="-1">7.3 <code>.com</code>、<code>.cn</code>、<code>.ai</code>是什么</h3><p>它们都是顶级域名（TLD）。IANA维护根区数据库，记录顶级域的委派信息。常见TLD大致可分为：</p><table><caption>表7-1　.com、.cn、.ai是什么</caption><thead><tr><th scope="col">类型</th><th scope="col">例子</th><th scope="col">说明</th></tr></thead><tbody><tr><td>通用顶级域 gTLD</td><td>.com、.org、.net</td><td>面向通用用途或特定政策范围</td></tr><tr><td>国家和地区代码 ccTLD</td><td>.cn、.jp、.uk、.ai</td><td>基于国家/地区代码体系委派；.ai是安圭拉的ccTLD，后来被AI行业大量使用</td></tr><tr><td>新通用顶级域</td><td>.app、.dev等</td><td>后续扩展出的更多gTLD</td></tr></tbody></table>
+<h3 id="ch7-s4" tabindex="-1">7.4 “买域名”到底买了什么</h3><p>更准确地说，你是在一段期限内取得某个域名的注册使用权，并与注册商形成注册合同关系。你通常需要按年续费，不是一次购买后永久归你。</p>
+<div class="diagram" role="figure" aria-labelledby="ch7-fig2"><div class="diagram-title" id="ch7-fig2">图7-2　域名生态角色</div><div class="flow"><div class="node">ICANN / IANA<small>政策协调与根区职责</small></div><span class="arrow">→</span><div class="node">注册局 Registry<small>运营某个TLD</small></div><span class="arrow">→</span><div class="node">注册商 Registrar<small>面向用户提供注册服务</small></div><span class="arrow">→</span><div class="node">注册人 Registrant<small>注册域名的个人/组织</small></div></div></div>
+<h3 id="ch7-s5" tabindex="-1">7.5 域名注册商、DNS服务商、服务器可以完全不是一家</h3><p>例如：</p><pre><code>域名注册：A公司
+权威DNS：B公司
+Web服务器：C云厂商
+CDN：D公司</code></pre>
+<p>这完全正常。注册商管理“这个域名由谁注册”；Nameserver告诉互联网“这个域名的权威DNS去哪里问”；DNS记录再告诉客户端“具体服务去哪个IP或名字”。</p>
+<h3 id="ch7-s6" tabindex="-1">7.6 Nameserver是什么</h3><p>当域名<code>example.com</code>的NS被设置为某组权威DNS服务器时，相当于告诉DNS体系：</p><div class="note"><span class="kicker">“关于example.com下面的权威答案，请去问这些服务器。”</span></div>
+<p>因此把DNS托管从A迁到B，常常需要在注册商处更新Nameserver。只是修改某条A记录，则通常只需在当前DNS托管商处操作。</p>
+<p>可以把域名当成店名，把DNS记录当成“店目前在哪个地址”的指引，把服务器当成真正提供服务的场所。店名续费、改地址、搬服务，是三项不同的操作。只注册域名不会自动出现网页；只改DNS也不会自动安装Web服务或申请好证书。</p>
+<h3 id="ch7-s7" tabindex="-1">7.7 域名、端口与URL别混</h3><p>拆开下面这个地址：</p><pre><code>https://api.example.com:8443/v1/users?id=12
+└https  协议
+        └api.example.com  主机名
+                        └8443  端口
+                             └/v1/users  路径
+                                       └?id=12  查询参数</code></pre>
+<p><code>https://example.com</code>没写端口时，客户端会按HTTPS URI语义使用默认443；<code>http://example.com</code>默认80。端口仍然存在，只是URL里省略了。</p>
+<h3 id="ch7-s8" tabindex="-1">7.8 为什么<code>example.com</code>和<code>www.example.com</code>可以不同</h3><p>它们是两个不同的DNS名称。站长可以把它们配置到同一服务，也可以完全不同。很多网站把一个重定向到另一个，是网站策略，不是DNS天然保证。</p>
+<h3 id="ch7-s9" tabindex="-1">7.9 域名与HTTPS证书</h3><p>TLS证书会声明它对哪些DNS名称有效。例如证书可覆盖<code>example.com</code>，也可覆盖<code>*.example.com</code>这样的通配符范围。浏览器访问某个主机名时，会验证证书中的名称是否匹配。通配符<code>*.example.com</code>通常只覆盖一级子域，如<code>www.example.com</code>，不覆盖<code>example.com</code>或<code>a.b.example.com</code>。直接用IP访问仅包含域名身份的证书，通常会名称不匹配；IP访问需要相应的IP地址身份。</p>
+<h3 id="ch7-s10" tabindex="-1">7.10 国内网站备案要和域名注册分开理解</h3><p>如果教程面向中国大陆部署场景，要把“注册域名、购买服务器、DNS解析、ICP备案/许可”等事情分开。它们是不同环节，适用要求会随服务性质、主体、服务器所在地和监管政策变化。实际发布前应以工信部及接入服务商最新官方规则为准。</p>
+
+<h3 id="ch7-practice" tabindex="-1">7.11 拆一条网址，不急着购买域名</h3>
+<p>在纸上拆开<code>https://docs.example.com:8443/start?lang=zh#install</code>：HTTPS是协议，<code>docs.example.com</code>是主机名，8443是端口，<code>/start</code>是路径，<code>lang=zh</code>是查询参数，<code>#install</code>是片段，通常交给浏览器定位或前端处理，不随普通HTTP请求目标发送给服务器。域名里不包含<code>https://</code>、端口和后面的路径。</p>
+<p>如果迁移一个网站，先列出三项：新服务入口、DNS记录、HTTPS证书。DNS已经改对，但新服务器没有该站点配置或有效证书，网页仍可能失败。这能解释为什么“域名解析成功”和“网站迁移完成”不能画等号。</p>
+<div class="quiz"><b>小测：持有*.example.com的证书，能直接覆盖example.com和a.b.example.com吗？</b><div class="answer">这个通配符通常只覆盖一个子域标签，例如docs.example.com。裸域名example.com和两级子域a.b.example.com都需要证书中另外合适的身份声明。</div><button type="button">看答案</button></div>
+
+<p class="source-note">本课核查依据：<a href="https://www.rfc-editor.org/info/rfc9525/" target="_blank" rel="noopener noreferrer">RFC 9525：TLS服务身份与通配符</a>；<a href="https://www.miit.gov.cn/gyhxxhb/jgsj/cyzcyfgs/bmgz/xxtxl/art/2024/art_84a0cfa0ebd049bbbe751dca9a008e56.html" target="_blank" rel="noopener noreferrer">工信部：非经营性互联网信息服务备案管理办法</a>。</p>
+</section>
+
+<section class="chapter" id="ch8" tabindex="-1" aria-labelledby="ch8-title"><h2 id="ch8-title">第8课　DNS：互联网怎样把名字变成答案</h2><p class="lead">DNS常被比作互联网电话簿，但它比电话簿复杂：它是一个全球分布式、分层、带缓存的数据库系统。</p>
+<h3 id="ch8-s1" tabindex="-1">8.1 一次DNS查询经过哪些角色</h3><p>当你访问<code>www.example.com</code>时，电脑上的“存根解析器”通常把问题交给递归DNS解析器。递归解析器如果没有缓存，会沿DNS层级寻找答案。</p>
+<div class="diagram" role="figure" aria-labelledby="ch8-fig1"><div class="diagram-title" id="ch8-fig1">图8-1　DNS递归解析（简化）</div><div class="flow"><div class="node">你的电脑<small>stub resolver</small></div><span class="arrow">→</span><div class="node">递归DNS<small>resolver</small></div><span class="arrow">→</span><div class="node">根服务器<small>去问.com</small></div><span class="arrow">→</span><div class="node">.com服务器<small>去问example.com</small></div><span class="arrow">→</span><div class="node">权威DNS<small>www=203.0.113.25</small></div></div></div>
+<p>图中箭头表示查找顺序。通常由递归解析器分别向根、顶级域和权威服务器发问，根服务器不会替客户端把同一条请求逐级转发。缓存、并行和查询名称最小化会减少查询；首次查询与后续查询的路径可能不同。</p>
+<p>查地址时，你通常只问一个帮忙查找的服务台，这就是递归解析器。它去问总目录、分类目录，最后找到真正负责该名字的权威服务器。权威服务器像这家店维护的地址登记处；递归解析器像替你查资料并暂存结果的人。先分清“谁替我查”和“谁负责公布答案”，后面的DNS设置就容易读懂。</p>
+<h3 id="ch8-s2" tabindex="-1">8.2 常见DNS记录</h3><table><caption>表8-1　常见DNS记录</caption><thead><tr><th scope="col">记录</th><th scope="col">用途</th><th scope="col">示例</th></tr></thead><tbody><tr><td>A</td><td>名称 → IPv4地址</td><td><code>www → 203.0.113.25</code></td></tr><tr><td>AAAA</td><td>名称 → IPv6地址</td><td><code>www → 2001:db8::25</code></td></tr><tr><td>CNAME</td><td>一个名称别名指向另一个名称</td><td><code>www → edge.example.net</code></td></tr><tr><td>MX</td><td>邮件接收服务器</td><td>域名邮件路由</td></tr><tr><td>TXT</td><td>文本数据</td><td>SPF、验证信息等常见用途</td></tr><tr><td>NS</td><td>某区域的权威名字服务器</td><td>告诉DNS体系该问谁</td></tr><tr><td>SOA</td><td>区域起始权威信息</td><td>包含序列号、计时参数等</td></tr><tr><td>PTR</td><td>反向解析</td><td>IP → 名称</td></tr></tbody></table>
+<h3 id="ch8-s3" tabindex="-1">8.3 TTL为什么重要</h3><p>DNS记录带有TTL，允许缓存一定时间。好处是降低延迟和权威DNS负载；代价是修改记录后，旧答案可能在缓存里继续存在一段时间。</p>
+<div class="note"><span class="kicker">“DNS多久生效”没有一个全球统一的倒计时。</span>它取决于旧记录TTL、各层缓存、客户端行为以及你修改的是记录本身还是Nameserver委派。把“修改后几分钟全世界一定生效”当固定规则是不准确的。</div>
+<p>假设某条记录的TTL为300秒，解析器刚拿到它，通常可以缓存最多300秒。你过100秒再查询，可能看见剩余TTL约200秒。这像给临时抄下来的地址贴上“多久后需要重查”的便签；它不意味着你改记录以后，全球所有缓存都会从新值开始重新计时。</p>
+<h3 id="ch8-s4" tabindex="-1">8.4 DNS默认用UDP还是TCP</h3><p>传统DNS查询大量使用UDP 53，但DNS也使用TCP 53，例如响应过大、区域传送等场景。完整的DNS实现需要支持TCP；收到被截断的UDP响应后，客户端通常会改用TCP重试。现代DNS还有加密传输：</p><div class="grid2"><div class="mini"><b>DoT</b><span>DNS over TLS。用TLS保护DNS客户端与解析器之间的查询通道。</span></div><div class="mini"><b>DoH</b><span>DNS over HTTPS。把DNS查询响应映射到HTTPS交换。</span></div></div>
+<p>它们主要改善“传输通道的隐私和防篡改”。DNSSEC解决的是另一件事：通过签名帮助验证DNS数据来源与完整性；DNSSEC本身不提供查询内容的机密性。</p>
+<h3 id="ch8-s5" tabindex="-1">8.5 为什么换DNS有时能“修网”</h3><p>如果你的网络能访问IP，但域名打不开，可能是DNS解析环节异常。换递归解析器可能绕过故障或污染，但并不能修复所有网络问题。若路由、TLS、服务器本身有问题，换DNS不会神奇解决。</p>
+<h3 id="ch8-s6" tabindex="-1">8.6 实训：查清一个域名</h3><pre><code># Windows
+nslookup example.com
+nslookup -type=mx example.com
+
+# Linux / macOS
+dig example.com A
+dig example.com AAAA
+dig example.com NS
+dig +trace example.com</code></pre>
+<p><code>dig +trace</code>非常适合学习DNS层级，因为它能展示从根开始逐步找到权威答案的过程。</p>
+<h3 id="ch8-s7" tabindex="-1">8.7 常见误区</h3><details><summary>域名解析到IP后，浏览器是不是直接访问这个IP就一定一样？</summary><p>不一定。HTTP Host、TLS SNI、证书、CDN边缘路由、虚拟主机都可能依赖域名。只把域名替换成IP，可能得到不同站点或直接失败。</p></details><details><summary>CNAME能不能想配在哪里就配在哪里？</summary><p>传统DNS语义下，同一个名称如果是CNAME，通常不能再同时拥有其他普通数据。区域顶点还涉及特殊限制；一些DNS服务商提供“扁平化/ALIAS/ANAME”一类产品能力，但它不是普通CNAME语义。</p></details>
+
+<h3 id="ch8-practice" tabindex="-1">8.8 动手：读懂一次DNS查询的结果</h3>
+<p>先运行<code>nslookup example.com</code>。通常顶部的Server/Address指你正在询问的DNS解析器，后面的名称与地址才是查询结果。别把“DNS服务器的IP”误认成“网站的IP”。看到“非权威应答”通常表示答案来自递归解析器，不代表答案一定错误。</p>
+<pre><code># Windows、macOS及安装了nslookup的Linux
+nslookup -type=A example.com
+nslookup -type=AAAA example.com</code></pre>
+<p>分别记录A和AAAA的结果，再与本机DNS配置对照。某个名称没有AAAA可以是正常情况；查询超时表示在等待响应，<code>NXDOMAIN</code>表示解析器回答这个名称不存在，两者不是同一个症状。网络策略、解析器缓存和CDN调度可能导致不同设备看到不同答案，不要求你的地址与教程或他人的截图一样。</p>
+<div class="quiz"><b>小测：DNS返回了一个IP，但浏览器仍打不开，接下来该查什么？</b><div class="answer">继续查实际访问的地址族、路由、传输端口、TLS和HTTP，不能只重复改DNS。浏览器还可能使用独立的安全DNS、缓存或代理，命令行的查询结果只是证据之一。</div><button type="button">看答案</button></div>
+
+<p class="source-note">本课核查依据：<a href="https://www.rfc-editor.org/rfc/rfc1034.html" target="_blank" rel="noopener noreferrer">RFC 1034：DNS解析</a>；<a href="https://www.rfc-editor.org/info/rfc7766" target="_blank" rel="noopener noreferrer">RFC 7766：DNS的TCP支持</a>。</p>
+</section>
+
+<section class="chapter" id="ch9" tabindex="-1" aria-labelledby="ch9-title"><h2 id="ch9-title">第9课　HTTP、HTTPS、HTTP/2、HTTP/3与QUIC</h2><p class="lead">HTTP定义“Web客户端和服务器如何表达请求与响应”；TLS负责安全；TCP或QUIC负责把HTTP数据可靠地送过去。版本升级主要在效率、并发、延迟和部署方式上演进。</p>
+<h3 id="ch9-s1" tabindex="-1">9.1 HTTP究竟是什么</h3><p>HTTP是无状态的应用层请求/响应协议族。浏览器可以发送：</p><pre><code>GET /docs HTTP/1.1
+Host: example.com
+Accept: text/html</code></pre>
+<p>服务器再返回状态码、响应头和内容。常见状态码：</p><table><caption>表9-1　HTTP究竟是什么</caption><thead><tr><th scope="col">范围</th><th scope="col">含义</th><th scope="col">例子</th></tr></thead><tbody><tr><td>2xx</td><td>成功</td><td>200 OK</td></tr><tr><td>3xx</td><td>重定向/缓存相关</td><td>301、302、304</td></tr><tr><td>4xx</td><td>客户端请求侧问题</td><td>400、401、403、404、429</td></tr><tr><td>5xx</td><td>服务器侧失败</td><td>500、502、503、504</td></tr></tbody></table>
+<p>HTTP像一次有格式的点单：方法说明想做什么，路径说明要哪个资源，响应状态码说明处理结果。<code>200</code>常表示成功，<code>404</code>表示服务器没找到请求的资源，<code>500</code>表示服务器内部出错。收到404已经说明有HTTP响应回来，排查重点应转向网址路径和服务配置。</p>
+<h3 id="ch9-s2" tabindex="-1">9.2 HTTPS是什么</h3><p>HTTPS是通过安全传输保护HTTP语义。现代Web里通常使用TLS。TLS 1.3旨在防止窃听、篡改和消息伪造，并通过证书等机制帮助客户端认证服务器。</p>
+<div class="diagram" role="figure" aria-labelledby="ch9-fig1"><div class="diagram-title" id="ch9-fig1">图9-1　不要把HTTPS和HTTP版本混为一谈</div><div class="flow"><div class="node">HTTPS<small>“安全地使用HTTP”</small></div><span class="arrow">可承载</span><div class="node">HTTP/1.1</div><div class="node">HTTP/2</div><div class="node">HTTP/3</div></div></div>
+<p>TLS像把通信装进能核对收件人身份、也能发现篡改的保护套。它保护传输过程，却不能保证网站内容诚实、下载文件无害。浏览器的安全连接提示不能替你判断陌生网站是否可信；证书名称不匹配也不应靠反复点击“继续”来处理。</p>
+<h3 id="ch9-s3" tabindex="-1">9.3 HTTP/1.1、HTTP/2、HTTP/3的核心差别</h3><div class="diagram" role="figure" aria-labelledby="ch9-fig2"><div class="diagram-title" id="ch9-fig2">图9-2　现代Web协议栈</div><div class="layer"><div class="lname">HTTP/1.1</div><div>HTTP/1.1 → TLS（HTTPS时）→ TCP → IP</div></div><div class="layer"><div class="lname">HTTP/2</div><div>HTTP/2 → TLS（浏览器Web部署通常如此）→ TCP → IP</div></div><div class="layer"><div class="lname">HTTP/3</div><div>HTTP/3 → QUIC（集成TLS握手与安全机制）→ UDP → IP</div></div></div>
+<p>HTTP/2在一个连接中支持多个并发交换，并对字段进行压缩，提高网络资源利用率、降低延迟。问题在于：所有这些流仍共享同一条TCP字节流；如果TCP层缺少前面的字节，后续字节即使已经到达，也必须等缺失部分恢复后才能按序交给上层。</p>
+<h3 id="ch9-s4" tabindex="-1">9.4 QUIC到底是什么</h3><p>QUIC是IETF标准化的安全通用传输协议。它把QUIC包放在UDP数据报中传输，并提供：</p><div class="grid3"><div class="mini"><b>多路流</b><span>一个连接里有多个独立流，每个流有自己的有序字节序列。</span></div><div class="mini"><b>低延迟建连</b><span>传输参数与TLS握手紧密结合，可减少新连接等待；恢复已有会话且满足条件时可使用0-RTT，但早期数据存在重放风险，应用须限制可重放操作。</span></div><div class="mini"><b>连接迁移</b><span>通过Connection ID等机制，让客户端网络路径改变后仍有机会延续连接。</span></div></div>
+<div class="warn note"><span class="kicker">QUIC在UDP之上提供完整的传输机制。</span>UDP只是它容易部署的承载层。可靠交付、确认、丢包恢复、流量控制、拥塞控制、多路流、安全握手等主要能力由QUIC自己提供。</div>
+<p>“流”可以先理解为一条连接里相对独立的一路数据，例如一张图片一路、一个脚本一路。多路复用让它们共享连接交错传送，像在同一条运输线路上给货物贴不同的分组标签。HTTP/3把可靠传输等工作交给QUIC；底层用UDP，不代表网页资源可以随便缺字节。</p>
+<h3 id="ch9-s5" tabindex="-1">9.5 为什么HTTP/3减少队头阻塞</h3><p>假设HTTP/2的多个请求共享TCP连接，底层TCP某段数据丢失，后面的TCP字节即使属于另一个HTTP/2流，也无法越过缺口交付。QUIC的可靠性通常在独立流上体现：一个流的数据丢失，不要求其他流等待同一个字节序列缺口。</p>
+<div class="diagram" role="figure" aria-labelledby="ch9-fig3"><div class="diagram-title" id="ch9-fig3">图9-3　直觉图：一个流丢包，其他流仍可前进</div><div class="flow"><div class="node">QUIC连接</div><span class="arrow">→</span><div class="node">Stream 1<small>HTML ✓</small></div><div class="node">Stream 2<small>图片：有丢包</small></div><div class="node">Stream 3<small>API ✓</small></div></div></div>
+<p>多个流仍共享连接级拥塞控制；流量控制或QPACK解码依赖也可能造成等待。减少传输层跨流队头阻塞，并不意味着HTTP/3在任何网络都更快。CPU、UDP策略、网络质量、连接复用、拥塞控制、服务器实现、路径中间设备都会影响结果。</p>
+<h3 id="ch9-s6" tabindex="-1">9.6 HTTP/3为什么常见于UDP 443</h3><p>IANA注册表中HTTPS同时登记了TCP 443和UDP 443。现实里，HTTP/1.1与HTTP/2通常跑在TCP 443；HTTP/3使用QUIC，通常使用UDP 443。服务器因此可以同时监听TCP 443和UDP 443，不冲突，因为传输协议不同。</p>
+<h3 id="ch9-s7" tabindex="-1">9.7 浏览器怎么知道网站支持HTTP/3</h3><p>现代部署可通过此前连接信息、HTTP响应中的Alt-Svc机制，以及DNS HTTPS/SVCB相关能力等途径发现替代服务。实现与浏览器策略会变化。对初学者来说，只需知道：<strong>URL仍然是https://，浏览器在背后协商或发现可用的HTTP版本。</strong></p>
+<h3 id="ch9-s8" tabindex="-1">9.8 实训</h3><pre><code># 查看HTTP响应头
+curl -I https://example.com
+
+# 显示更详细的TLS/连接信息
+curl -v https://example.com
+
+# 先用curl --version检查Features是否含HTTP3
+# 以下命令允许回退；example.com不保证提供HTTP/3
+curl --http3 -I https://example.com
+# 对已确认支持HTTP/3的测试站点，可用--http3-only禁止回退</code></pre>
+<p>Windows PowerShell 5.1的<code>curl</code>可能是<code>Invoke-WebRequest</code>的别名；本教程使用curl工具时，可明确输入<code>curl.exe</code>。也可在Chrome/Edge开发者工具的Network面板启用Protocol列，查看实际使用的HTTP版本。</p>
+
+<h3 id="ch9-practice" tabindex="-1">9.9 动手：看见浏览器真正收到了什么</h3>
+<p>在电脑浏览器打开自己能正常访问的网页。Chrome或Edge按F12（部分电脑需Fn＋F12），切到Network/网络，再刷新页面；macOS也可从浏览器菜单打开开发者工具。点第一条文档请求，查看请求URL、状态码、响应头和Timing/时间。打开Protocol/协议列，可观察h2、h3或HTTP/1.1等显示，具体值取决于浏览器和服务。</p>
+<p>再比较两个现象：“404”和“连接超时”。404说明已经收到HTTP层面的响应，优先查路径、资源和转发规则；超时需要从更早的连接阶段查起，也可能是服务迟迟未响应。浏览器能显示错误页，不代表传输就一定完全中断。</p>
+<p>第18课会用你自己的本地网页重复这次观察。它使用明文HTTP，不演示公网HTTPS或HTTP/3；不要求你为了练习禁用浏览器安全功能。学习现代协议时，先能说清每层负责什么，再比较版本差异。</p>
+<div class="tip note"><span class="kicker">资料：</span><a href="https://developer.chrome.com/docs/devtools/network/" target="_blank" rel="noopener noreferrer">Chrome官方Network面板教程</a>提供实际界面操作。不同浏览器版本的菜单名称可能稍有变化。</div>
+
+<p class="source-note">本课核查依据：<a href="https://www.rfc-editor.org/rfc/rfc9114.html" target="_blank" rel="noopener noreferrer">RFC 9114：HTTP/3</a>；<a href="https://www.rfc-editor.org/info/rfc9000/" target="_blank" rel="noopener noreferrer">RFC 9000：QUIC</a>；<a href="https://www.rfc-editor.org/info/rfc9001" target="_blank" rel="noopener noreferrer">RFC 9001：QUIC安全与0-RTT</a>。</p>
+</section>
+
+<section class="chapter" id="ch10" tabindex="-1" aria-labelledby="ch10-title"><h2 id="ch10-title">第10课　防火墙与网络安全：能通信，不代表应该放行</h2><p class="lead">现代网络工程的第一原则之一：减少不必要的暴露面。服务只开放给真正需要的来源、接口和身份。</p>
+<h3 id="ch10-s1" tabindex="-1">10.1 防火墙在做什么</h3><p>防火墙根据规则决定网络流量是否允许通过。规则可能考虑源/目的IP、端口、协议、连接状态、接口、应用甚至更高层信息。</p>
+<div class="diagram" role="figure" aria-labelledby="ch10-fig1"><div class="diagram-title" id="ch10-fig1">图10-1　访问一个服务可能要经过多层“门”</div><div class="flow"><div class="node">互联网用户</div><span class="arrow">→</span><div class="node">云安全组<small>云平台层</small></div><span class="arrow">→</span><div class="node">主机防火墙<small>OS层</small></div><span class="arrow">→</span><div class="node">监听地址/端口<small>应用层</small></div><span class="arrow">→</span><div class="node">认证授权<small>账号/密钥</small></div></div></div>
+<p>防火墙像按名单检查访客的门禁：谁来、找哪个窗口、使用什么协议，都可以成为条件。程序监听像窗口有人值班，规则放行像允许进入走廊，账号验证像办业务前核实身份。三个环节各有作用，只开其中一个不等于其他环节就已正常。</p>
+<h3 id="ch10-s2" tabindex="-1">10.2 “监听”“开放”“公网可达”不是一个概念</h3><table><caption>表10-1　“监听”“开放”“公网可达”不是一个概念</caption><thead><tr><th scope="col">说法</th><th scope="col">准确含义</th></tr></thead><tbody><tr><td>程序监听8080</td><td>操作系统有进程在某些本地地址的8080端口等待连接</td></tr><tr><td>防火墙放行8080</td><td>防火墙规则允许某类流量进入/通过</td></tr><tr><td>公网可访问8080</td><td>从公网存在可路由路径，并且NAT/安全组/防火墙/应用都允许</td></tr></tbody></table>
+<h3 id="ch10-s3" tabindex="-1">10.3 127.0.0.1为什么常用于“只给本机”</h3><p>如果数据库管理接口只供同一台服务器上的应用使用，可以绑定<code>127.0.0.1</code>。这样即使网卡有公网地址，服务也没有在外部接口上监听。相比“监听所有接口后再靠防火墙挡住”，这是更小的暴露面。</p>
+<h3 id="ch10-s4" tabindex="-1">10.4 0.0.0.0为什么要谨慎</h3><p>很多服务器框架中<code>0.0.0.0</code>表示绑定全部IPv4接口。如果机器同时有内网和公网接口，这可能让服务在你没有意识到的网络上出现。容器平台、云安全组和宿主机防火墙还会进一步决定是否可达。</p>
+<h3 id="ch10-s5" tabindex="-1">10.5 入站与出站</h3><p>家庭路由器和云安全策略常区分入站和出站。普通客户端通常需要主动出站访问互联网；服务器则可能需要允许特定入站服务。企业网络还会限制出站，防止恶意软件或数据外传。</p>
+<h3 id="ch10-s6" tabindex="-1">10.6 最小暴露的实用清单</h3><ol><li>不需要公网访问的服务，绑定回环或内网地址。</li><li>数据库、Redis、管理后台不要默认裸露公网。</li><li>SSH优先密钥认证，限制来源，禁用弱口令。</li><li>云安全组只开放必要端口和来源。</li><li>对管理面优先使用VPN/零信任访问层，而不是直接暴露。</li><li>及时更新软件，开启日志和失败登录监控。</li></ol>
+<div class="danger note"><span class="kicker">端口换成高位随机数不是安全机制。</span>它可能减少一些自动扫描噪声，但服务仍然可能被发现。真正安全来自认证、加密、访问控制、补丁、隔离和最小权限。</div>
+
+<h3 id="ch10-practice" tabindex="-1">10.7 练一遍：把“放行”写成一条明确需求</h3>
+<p>“把8000打开”还不够明确。完整需求应写成：“允许家庭局域网中指定测试电脑，以TCP访问我的实验机8000端口；实验后撤销临时规则。”来源、目标、协议、端口和用途写清楚，才知道该改哪一道门。<code>0.0.0.0/0</code>作为IPv4来源范围表示所有IPv4来源，不应为了省事直接用于管理服务。</p>
+<p>如果本机能打开实验网页，另一台设备打不开，先看监听地址，再确认两台设备是否同网、是否有访客隔离，随后检查对应的防火墙规则。确需建立规则时，用系统官方界面只允许必要的程序或端口，并限定实际来源和网络配置文件；不要把整个防火墙关掉。</p>
+<div class="quiz"><b>小测：Web程序换到一个很少见的端口，还需要登录和补丁吗？</b><div class="answer">仍然需要。端口号可以被发现，改号无法替代身份验证、访问控制、加密和软件更新。</div><button type="button">看答案</button></div>
+<div class="tip note"><span class="kicker">完成标志：</span>能写出一条有来源、有协议、有端口、有用途的访问需求，并说明实验结束后如何撤销。</div>
+
+</section>
+
+<section class="chapter" id="ch11" tabindex="-1" aria-labelledby="ch11-title"><h2 id="ch11-title">第11课　Wi-Fi与家庭网络：信号满格为什么还会卡</h2><p class="lead">Wi-Fi只是“设备到无线接入点”的一段链路。网页加载速度还取决于路由器、运营商、DNS、远端服务器和整个路径。</p>
+<h3 id="ch11-s1" tabindex="-1">11.1 2.4GHz、5GHz、6GHz先怎么理解</h3><div class="grid3"><div class="mini"><b>2.4GHz</b><span>覆盖和穿墙通常更有优势，但可用频谱少、干扰常更多。</span></div><div class="mini"><b>5GHz</b><span>现代家庭主力频段之一，通常有更多可用信道和更高容量，覆盖受环境影响。</span></div><div class="mini"><b>6GHz</b><span>Wi-Fi 6E扩展到6GHz，Wi-Fi 7也可使用该频段；频谱可用范围由当地法规决定，并非所有Wi-Fi 7设备都支持6GHz。</span></div></div>
+<p>这些是经验方向，不是绝对规律。墙体材料、距离、天线、发射功率、法规、邻居网络和终端能力都会改变结果。</p>
+<h3 id="ch11-s2" tabindex="-1">11.2 Wi-Fi信道与频宽</h3><p>无线网络共享空气。邻居AP和你使用相同/重叠信道，就像多人同时抢一条单车道。更宽的信道可以提高峰值吞吐，但也更容易受到干扰和频谱条件限制。</p>
+<h3 id="ch11-s3" tabindex="-1">11.3 Wi-Fi 6、6E、7主要提升什么</h3><p>入门时可以先关注：多设备并发效率、频谱利用率、峰值速率、延迟控制等。Wi-Fi 6主要对应802.11ax；6E把相关能力扩展到6GHz；Wi-Fi 7对应802.11be，支持MLO、4096-QAM等能力，320MHz信道用于允许的6GHz频谱。实际收益取决于AP、终端、地区法规、干扰与回程。</p>
+<p>“回程”就是AP或Mesh节点把数据送回主路由器的那段路。手机到卧室节点只有两米，卧室节点到主路由器却要穿三堵墙，这段回程就可能拖慢全程。“漫游”是手机移动时切换到另一个接入点；同一个Wi-Fi名字并不保证切换瞬间永远无卡顿，终端也参与决定。</p>
+<h3 id="ch11-s4" tabindex="-1">11.4 Mesh是什么</h3><p>Mesh系统通过多个节点扩大覆盖，并统一管理SSID、漫游和回程路径。关键是：</p><div class="note"><span class="kicker">Mesh不能创造不存在的带宽。</span>如果卫星节点到主节点的无线回程很差，终端连上卫星即使信号满格，整体速度仍可能很低。能做有线回程时，通常更稳定。</div>
+<h3 id="ch11-s5" tabindex="-1">11.5 为什么满格Wi-Fi仍然打不开网页</h3><div class="diagram" role="figure" aria-labelledby="ch11-fig1"><div class="diagram-title" id="ch11-fig1">图11-1　“满格”只覆盖链路的一小段</div><div class="flow"><div class="node">手机</div><span class="arrow">⇄</span><div class="node">Wi-Fi AP<small>满格通常只表示信号较强</small></div><span class="arrow">→</span><div class="node">光猫/运营商</div><span class="arrow">→</span><div class="node">DNS/互联网</div><span class="arrow">→</span><div class="node">网站</div></div></div>
+<h3 id="ch11-s6" tabindex="-1">11.6 家庭网络优化顺序</h3><ol><li>先有线直连测速，确认运营商线路和出口能力。</li><li>再测路由器附近Wi-Fi，排除终端问题。</li><li>再到问题房间测信号、吞吐、延迟和丢包。</li><li>优化AP位置、信道和回程；必要时增加AP，而不是一味提高发射功率。</li><li>把固定高带宽设备尽量用网线接入。</li></ol>
+
+<h3 id="ch11-practice" tabindex="-1">11.7 动手：用三个位置找出无线瓶颈</h3>
+<p>在网络空闲时，使用同一台电脑，依次记录：有线接路由器、在路由器附近连Wi-Fi、在原来卡顿的房间连Wi-Fi。没有网口可以先比较后两个位置，并记下少了有线基准。每次用同一个测试目标，记录连接方式、频段、网关RTT、下载结果和是否卡顿，换位置后确认没有误连到另一个热点。</p>
+<p>近处正常、远处明显变差，优先检查覆盖、墙体、干扰和回程；有线和无线都慢，优先检查共同经过的出口、上游和远端服务。这个对照能缩小范围，不能凭一次结果立刻认定设备损坏。重复几次、排除后台上传后再决定移动AP或调整配置。</p>
+<p>买新路由器前先试两件小事：把设备移出封闭柜体，尽量放在覆盖区域中央；固定电脑、电视等能接网线的设备优先用网线。频宽调到最大未必最好，在拥挤环境里较窄信道可能更稳定，要用同样的方法复测。</p>
+
+<p class="source-note">本课核查依据：<a href="https://standards.ieee.org/ieee/802.11be/7516/" target="_blank" rel="noopener noreferrer">IEEE 802.11be-2024：Wi-Fi 7</a>。</p>
+</section>
+
+<section class="chapter" id="ch12" tabindex="-1" aria-labelledby="ch12-title"><h2 id="ch12-title">第12课　网络性能：带宽大，不等于体验一定快</h2><p class="lead">网络体验至少要同时看带宽、延迟、丢包、抖动和协议行为。单看“千兆宽带”很容易误判。</p>
+<h3 id="ch12-s1" tabindex="-1">12.1 Mbps和MB/s差8倍</h3><p>运营商带宽通常用bit/s；下载软件常用Byte/s。1 Byte = 8 bits，所以理想情况下：</p><pre><code>1000 Mbps ÷ 8 ≈ 125 MB/s</code></pre>
+<p>真实下载还要扣除协议开销，并受服务器、磁盘、Wi-Fi、TCP/QUIC拥塞控制等影响，因此达不到125MB/s很正常。</p>
+<h3 id="ch12-s2" tabindex="-1">12.2 延迟、RTT、抖动、丢包</h3><table><caption>表12-1　延迟、RTT、抖动、丢包</caption><thead><tr><th scope="col">指标</th><th scope="col">直白解释</th><th scope="col">特别敏感的场景</th></tr></thead><tbody><tr><td>延迟</td><td>数据走过去要多久</td><td>交互、远程桌面、游戏</td></tr><tr><td>RTT</td><td>往返一次要多久</td><td>握手、请求响应</td></tr><tr><td>抖动</td><td>延迟忽高忽低</td><td>语音、视频、游戏</td></tr><tr><td>丢包</td><td>部分数据没有到达</td><td>几乎所有实时/可靠传输</td></tr><tr><td>吞吐量</td><td>单位时间真正传了多少有效数据</td><td>下载、备份、视频</td></tr></tbody></table>
+<p>带宽像一段路每秒能通过多少货，延迟像一趟往返要花多久，抖动像每趟所用时间忽长忽短。宽路可以多装货，却不会自动让很远的两地变近。看视频下载关注持续吞吐，视频会议还要关注延迟、抖动和丢包；这些指标不能互相替代。</p>
+<h3 id="ch12-s3" tabindex="-1">12.3 为什么跨洲网站“带宽够但还是慢”</h3><p>光在光纤中的传播也需要时间，跨洲路径还会经过多跳路由。一个应用如果需要多轮握手和串行请求，几十到几百毫秒RTT会被反复放大。所以现代协议一直在减少往返次数、复用连接、并行传输。</p>
+<h3 id="ch12-s4" tabindex="-1">12.4 丢包为什么会拖慢可靠传输</h3><p>TCP和QUIC都需要拥塞控制，不能发现丢包还无限加速。丢包可能触发重传和降低发送速率。如果Wi-Fi干扰严重、链路拥塞或路径质量差，即使套餐带宽很高，实际吞吐也会下降。</p>
+<h3 id="ch12-s5" tabindex="-1">12.5 Bufferbloat：速度快但延迟突然爆炸</h3><p>如果网络设备排队缓存过大，当上行或下行被跑满时，实时小包可能要在巨大队列后面等待，于是延迟从几十毫秒飙到几百甚至上千毫秒。表现就是：测速很快，但一有人上传/下载，视频会议和游戏立刻卡。</p>
+<h3 id="ch12-s6" tabindex="-1">12.6 CDN为什么能加速</h3><p>CDN把可缓存内容或代理入口放到更靠近用户的位置，减少网络距离，并利用更好的骨干和边缘调度。</p><div class="diagram" role="figure" aria-labelledby="ch12-fig1"><div class="diagram-title" id="ch12-fig1">图12-1　没有CDN vs 有CDN</div><div class="flow"><div class="node">用户</div><span class="arrow">→</span><div class="node">附近CDN边缘<small>缓存命中可直接响应</small></div><span class="arrow">→</span><div class="node">源站<small>必要时回源</small></div></div></div>
+<h3 id="ch12-s7" tabindex="-1">12.7 实训：分开测延迟和吞吐</h3><pre><code># 基础可达性与RTT
+ping 1.1.1.1
+
+# 路径
+traceroute example.com   # Linux/macOS
+tracert example.com      # Windows
+
+# 在局域网测试机192.168.1.50上运行服务端
+iperf3 -s
+
+# 在另一台设备运行客户端；测试机需放行TCP 5201
+iperf3 -c 192.168.1.50</code></pre>
+<p>测试时要控制变量：同一设备、同一位置、同一频段、同一时间窗口，先有线再无线。否则你无法知道差异来自哪里。</p>
+
+<h3 id="ch12-practice" tabindex="-1">12.8 练一遍：速度、等待时间分开算</h3>
+<p>100Mbps换算成十进制单位，理论约为12.5MB/s。下载一个100MB文件，单看带宽，传输时间下限约为8秒；还没算握手、协议开销和服务端等待。下载软件若显示MiB/s，使用的是另一种二进制单位，不能只看数字就直接比较。</p>
+<p>再假设某个操作必须串行完成5次往返，每次RTT为100毫秒，仅往返等待就约需500毫秒。带宽从100Mbps升级到1000Mbps，也不会直接抹掉这500毫秒。这里是假设条件下的计算，用来说明等待与传输是两笔时间。</p>
+<p>做性能记录时至少分三栏：空闲时的RTT、网络忙时的RTT、持续吞吐。若上传一开始，延迟就明显升高，停止上传后恢复，可以怀疑拥塞排队或Bufferbloat；还需结合链路和设备情况确认。不要用正在进行的测速干扰重要会议，也不要把一次ping超时就算成实际业务丢包率。</p>
+<div class="quiz"><b>小测：一跳traceroute显示很多星号，但网页一直正常，需要立刻认定那台路由器坏了吗？</b><div class="answer">不需要。中间设备可以不回应或限速探测，却正常转发业务。结合后续跳、终点和实际应用表现判断；探测响应与正常数据转发是不同的观察对象。</div><button type="button">看答案</button></div>
+
+</section>
+<section class="chapter" id="ch13" tabindex="-1" aria-labelledby="ch13-title"><h2 id="ch13-title">第13课　代理、VPN与隧道：流量为什么会“绕路”</h2><p class="lead">很多初学者把代理、VPN、TUN、隧道混成一个词。它们都可能改变流量路径，但工作层次、覆盖范围和信任边界并不一样。</p>
+<h3 id="ch13-s1" tabindex="-1">13.1 正向代理：客户端先把请求交给“中间人”</h3><p>正向代理代表客户端去访问目标。例如浏览器把HTTP请求交给代理服务器，再由代理去请求网站。</p><div class="diagram" role="figure" aria-labelledby="ch13-fig1"><div class="diagram-title" id="ch13-fig1">图13-1　正向代理</div><div class="flow"><div class="node">你的应用</div><span class="arrow">→</span><div class="node">代理服务器<small>替客户端出站</small></div><span class="arrow">→</span><div class="node">目标网站</div></div></div>
+<h3 id="ch13-s2" tabindex="-1">13.2 反向代理：客户端以为自己在访问网站</h3><p>Nginx、Envoy、云负载均衡、CDN常扮演反向代理：客户端连接它，它再把请求转给后端服务器。</p><div class="diagram" role="figure" aria-labelledby="ch13-fig2"><div class="diagram-title" id="ch13-fig2">图13-2　反向代理</div><div class="flow"><div class="node">用户</div><span class="arrow">→</span><div class="node">反向代理<small>TLS终止 / 路由 / 缓存</small></div><span class="arrow">→</span><div class="node">后端A</div><div class="node">后端B</div></div></div>
+<p>正向代理像你请人代办：客户端知道要找谁代办。反向代理像商家的统一接待台：你只看见接待入口，后面由它安排哪个服务处理。这个比方说明“代表哪一侧”；实际是否终止TLS、是否能看见内容，要看协议和配置，不能只凭“代理”二字下结论。</p>
+<h3 id="ch13-s3" tabindex="-1">13.3 HTTP代理和SOCKS代理</h3><p>HTTP代理理解HTTP语义，HTTPS常通过CONNECT建立一条隧道；SOCKS更像通用的连接转发接口，不要求上层一定是HTTP。具体支持TCP、UDP与认证方式取决于协议版本和实现。</p>
+<h3 id="ch13-s4" tabindex="-1">13.4 VPN是什么</h3><p>VPN在共享基础设施上建立逻辑隔离的专用连接。远程接入VPN常通过加密隧道保护通信；运营商MPLS VPN等服务则不必自带端到端加密，是否加密要看具体实现。企业远程办公、站点互联、个人虚拟组网都会用到。</p><div class="diagram" role="figure" aria-labelledby="ch13-fig3"><div class="diagram-title" id="ch13-fig3">图13-3　VPN覆盖网络</div><div class="flow"><div class="node">笔记本<small>虚拟IP 10.10.0.2</small></div><span class="arrow">⇄ 加密隧道 ⇄</span><div class="node">VPN网关<small>10.10.0.1</small></div><span class="arrow">→</span><div class="node">公司内网<small>172.16.0.0/16</small></div></div></div>
+<h3 id="ch13-s5" tabindex="-1">13.5 TUN模式到底是什么</h3><p>TUN通常是操作系统提供的虚拟三层网络接口。代理软件使用TUN时，可以让系统把IP数据包送进这个虚拟网卡，再由代理程序决定怎么转发。这样即使应用本身不支持“设置代理”，它的流量也可能被接管。</p><div class="note"><span class="kicker">这解释了一个常见现象：</span>某些软件在“系统代理”模式下不走代理，因为它根本不读取系统代理设置；打开TUN后却能工作，因为它看到的是操作系统路由层面的虚拟网络。</div>
+<p>“隧道”可以理解为把原来的数据包再装进一层外包装，先送到隧道另一端，再拆开继续转发。它并不凭空缩短物理距离，还会增加一些协议开销。TUN则像操作系统里的一个虚拟收发口，程序从这个接口接走IP包，再决定怎样封装和转发。</p>
+<h3 id="ch13-s6" tabindex="-1">13.6 VPN与代理的差别，不要只记“一个全局一个局部”</h3><table><caption>表13-1　VPN与代理的差别，不要只记“一个全局一个局部”</caption><thead><tr><th scope="col">维度</th><th scope="col">应用代理</th><th scope="col">VPN/虚拟网络</th></tr></thead><tbody><tr><td>典型工作位置</td><td>应用层或代理协议层</td><td>IP层/虚拟接口或更底层</td></tr><tr><td>应用是否要配合</td><td>常常需要</td><td>通常对应用更透明</td></tr><tr><td>能否访问远端私网</td><td>视代理能力</td><td>常见用途之一</td></tr><tr><td>路由控制</td><td>更多由代理程序规则决定</td><td>常通过系统路由表/AllowedIPs等控制</td></tr></tbody></table>
+<h3 id="ch13-s7" tabindex="-1">13.7 WireGuard为什么常被提到</h3><p>WireGuard是一种现代VPN协议/实现，使用公私钥配置peer，并通过虚拟网络接口和AllowedIPs等概念决定哪些地址经隧道发送。它的配置模型相对小，但真正部署仍需理解路由、NAT、防火墙和密钥管理。</p>
+<h3 id="ch13-s8" tabindex="-1">13.8 分流：不是所有流量都必须进隧道</h3><p>常见两种模式：</p><div class="grid2"><div class="mini"><b>全隧道 Full Tunnel</b><span>默认路由也指向VPN，绝大多数流量经隧道。</span></div><div class="mini"><b>分流 Split Tunnel</b><span>只有特定网段或目标走VPN，其他流量直接上网。</span></div></div>
+<div class="warn note"><span class="kicker">VPN不是“自动匿名器”。</span>它只是改变了信任和流量出口：本地网络看到的内容减少了，但VPN服务端可能看到更多元数据。HTTPS等端到端安全仍然重要。</div>
+
+<h3 id="ch13-practice" tabindex="-1">13.9 动手：给“流量绕路”画两条线</h3>
+<p>只查看自己的系统代理、浏览器代理和VPN设置，先不改动企业管理配置。在笔记里分别画出“浏览器→代理→网站”和“电脑→VPN网关→目标网络”。前一条可能只影响遵循代理设置的应用，后一条影响哪些目标，要看路由和分流规则。</p>
+<p>如果VPN只给<code>10.20.0.0/16</code>配置了隧道路由，访问公司10.20网段会进入隧道，其他互联网流量在没有更匹配规则的常见情况下仍走原出口。若默认路由也进入VPN，大量互联网流量就可能跟着绕行；具体还要核对策略路由、IPv6和DNS。</p>
+<div class="quiz"><b>小测：开着代理时浏览器能访问，命令行工具却失败，能证明电脑完全断网吗？</b><div class="answer">不能。两者可能走不同代理设置、DNS和网络路径。先记录各自配置与错误，确认是否经过同一个出口，再比较结果。不要把某一个应用的成功或失败直接推广到全部程序。</div><button type="button">看答案</button></div>
+
+</section>
+
+<section class="chapter" id="ch14" tabindex="-1" aria-labelledby="ch14-title"><h2 id="ch14-title">第14课　Docker与容器网络：为什么容器里的127.0.0.1不是宿主机</h2><p class="lead">容器最容易让网络新手困惑，因为“同一台物理/虚拟机器”里突然出现了多个网络命名空间、虚拟接口、私有子网和端口映射。</p>
+<h3 id="ch14-s1" tabindex="-1">14.1 容器有自己的网络视角</h3><p>在常见Linux Docker桥接网络中，容器会看到自己的网卡、IP、路由表和DNS。对容器内部的程序来说，它像一台独立主机。</p><div class="diagram" role="figure" aria-labelledby="ch14-fig1"><div class="diagram-title" id="ch14-fig1">图14-1　Docker桥接网络（简化）</div><div class="flow"><div class="node">容器A<small>172.18.0.2</small></div><span class="arrow">↔</span><div class="node">docker bridge<small>172.18.0.1</small></div><span class="arrow">↔</span><div class="node">宿主机<small>192.168.1.50</small></div><span class="arrow">→</span><div class="node">外部网络</div></div></div>
+<p>网络命名空间像同一栋楼里各自独立编号的房间：每个房间都有自己的“这里”和“出口”。容器里的<code>localhost</code>说的是当前这个网络空间，宿主机里的<code>localhost</code>说的是宿主机那个空间。先确定命令在哪一侧执行，再解释地址，能避开很多容器连接错误。</p>
+<h3 id="ch14-s2" tabindex="-1">14.2 容器里的127.0.0.1指谁</h3><p>在这里假设的独立网络命名空间中，它指当前容器的回环接口。使用host网络模式或共享网络命名空间时，情况不同，不能一概套用。假设数据库运行在宿主机<code>127.0.0.1:5432</code>，容器里访问<code>127.0.0.1:5432</code>是在找“容器自身的5432”，通常找不到宿主机数据库。</p>
+<h3 id="ch14-s3" tabindex="-1">14.3 为什么Web程序在容器里常要监听0.0.0.0</h3><p>如果Web进程只监听容器内<code>127.0.0.1:80</code>，通过容器网卡进来的连接到不了它。监听<code>0.0.0.0:80</code>通常意味着同时接受容器各IPv4接口上的连接，再配合Docker发布端口。</p>
+<h3 id="ch14-s4" tabindex="-1">14.4 <code>-p 8080:80</code>究竟做了什么</h3><p>Docker官方文档把它定义为把宿主机8080映射到容器TCP 80：</p><div class="diagram" role="figure" aria-labelledby="ch14-fig2"><div class="diagram-title" id="ch14-fig2">图14-2　Docker端口发布</div><div class="flow"><div class="node">客户端</div><span class="arrow">→</span><div class="node">宿主机:8080</div><span class="arrow">→</span><div class="node">容器:80</div></div></div>
+<pre><code>docker run -d --name netbook-web -p 8080:80 nginx:stable-alpine</code></pre>
+<p>如果不指定宿主机IP，Docker默认可能发布到宿主机所有地址，因此存在对外暴露风险。只想让宿主机本机访问时，可显式绑定回环：</p><pre><code>docker run -d --name netbook-local -p 127.0.0.1:8081:80 nginx:stable-alpine</code></pre>
+<p class="source-note">以上说明针对常见bridge网络的默认NAT模式。Docker官方文档提示：28.0.0之前的版本存在同一二层网络访问回环发布端口的历史问题，应升级并核对网络配置。第二个示例使用8081，避免与前一个示例冲突。</p><h3 id="ch14-s5" tabindex="-1">14.5 EXPOSE和publish不是一回事</h3><p>镜像里的<code>EXPOSE 80</code>主要表达“容器应用预期使用80端口”的元数据/约定；它不会自动把端口发布到宿主机公网。真正对外发布通常由<code>-p/--publish</code>、Compose ports等配置完成。</p>
+<h3 id="ch14-s6" tabindex="-1">14.6 容器之间怎样互相访问</h3><p>同一个用户自定义bridge网络里的容器，可以直接通过容器网络通信，Docker还提供容器名级别的DNS解析。不要把宿主机映射端口当成容器间通信的唯一方式。</p>
+<h3 id="ch14-s7" tabindex="-1">14.7 一个可复现的Compose网络实验</h3><p>先安装Docker Engine与Compose插件，或Docker Desktop。把下列内容保存为<code>compose.yaml</code>，在同目录的<code>.env</code>中设置<code>POSTGRES_PASSWORD=你自己生成的强密码</code>，再执行<code>docker compose up -d</code>。首次启动需要联网拉取镜像，宿主机8080端口须空闲。</p><pre><code>services:
+  web:
+    image: nginx:stable-alpine
+    ports:
+      - "127.0.0.1:8080:80"
+  db:
+    image: postgres:17-alpine
+    environment:
+      POSTGRES_USER: netbook
+      POSTGRES_DB: netbook
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?请在.env中设置数据库密码}
+    volumes:
+      - db-data:/var/lib/postgresql/data
+    # 不发布5432到宿主机；同网络服务可用db:5432访问
+volumes:
+  db-data:</code></pre>
+<p>访问<code>http://127.0.0.1:8080</code>可看到Nginx默认页。执行<code>docker compose exec db pg_isready -U netbook -d netbook</code>检查数据库，执行<code>docker compose exec web nslookup db</code>观察服务名解析。两个服务共享Compose默认网络；Nginx尚未连接数据库，这个实验只验证端口发布与服务发现。停止实验用<code>docker compose down</code>，命名卷中的数据库数据会保留。</p><div class="tip note"><span class="kicker">安全设计：</span>未发布数据库端口不等于完全隔离：同一容器网络中的服务仍可能访问数据库。生产环境还需分网、认证和最小权限，镜像应固定到经过验证的版本或摘要。</div>
+
+<h3 id="ch14-practice" tabindex="-1">14.8 读懂实验结果，再整理实验环境</h3>
+<p>运行Compose前，先停止前面名为<code>netbook-web</code>的独立示例容器，或跳过那个示例，避免它占用8080。<code>docker ps</code>用于查看正在运行的容器；只有确认属于自己这次实验的容器，才执行后面的停止或删除操作。Compose命令应在<code>examples</code>目录或你保存配置的目录里运行。</p>
+<p>正确的对照是：宿主机浏览器访问<code>127.0.0.1:8080</code>看到Nginx页；容器内部查询<code>db</code>得到容器网络地址；数据库就绪检查出现<code>accepting connections</code>等成功提示。首次初始化可能需要等待后重试。服务名db对应的内部IP可能变化，应用应优先使用服务名，不要把当前IP写死。</p>
+<p>本示例没有发布宿主机5432。即使容器内数据库正常，宿主机访问<code>127.0.0.1:5432</code>也不能据此访问到它；若该地址能连通，还要确认是否碰巧是另一套本机数据库。</p>
+<pre><code># 仅清理你按前文创建的两个独立示例容器
+docker stop netbook-web netbook-local
+docker rm netbook-web netbook-local
+
+# 在Compose配置所在目录停止该实验；保留命名卷
+docker compose down</code></pre>
+<p>若你没有创建某个示例容器，针对它的命令会提示找不到，可跳过。<code>down</code>保留命名卷便于下次复用；不要在不理解后果时追加<code>-v</code>，该选项可能删除实验数据库卷。无需安装Docker也应先能口头解释“宿主机端口→容器端口”和“容器自己的localhost”。</p>
+
+<p class="source-note">本课核查依据：<a href="https://docs.docker.com/engine/network/port-publishing/" target="_blank" rel="noopener noreferrer">Docker：端口发布与版本限制</a>；<a href="https://hub.docker.com/_/postgres" target="_blank" rel="noopener noreferrer">PostgreSQL官方镜像：初始化与数据目录</a>。</p>
+</section>
+
+<section class="chapter" id="ch15" tabindex="-1" aria-labelledby="ch15-title"><h2 id="ch15-title">第15课　云网络、CDN与负载均衡：把一台服务器扩展成一个系统</h2><p class="lead">云网络的核心并没有推翻前面的知识。VPC仍是IP网络，安全组仍是访问控制，负载均衡仍在转发连接或请求，NAT网关仍在做地址转换。</p>
+<h3 id="ch15-s1" tabindex="-1">15.1 VPC是什么</h3><p>VPC可以理解为云厂商给你的一个逻辑隔离网络。你规划CIDR，例如<code>10.20.0.0/16</code>，再划多个子网：</p><div class="diagram" role="figure" aria-labelledby="ch15-fig1"><div class="diagram-title" id="ch15-fig1">图15-1　一个典型云VPC</div><div class="flow"><div class="node">VPC 10.20.0.0/16</div><span class="arrow">→</span><div class="node">公网子网<small>10.20.1.0/24</small></div><div class="node">应用子网<small>10.20.2.0/24</small></div><div class="node">数据库子网<small>10.20.3.0/24</small></div></div></div>
+<p>“公网子网”并不意味着其中每台机器天然拥有公网IP；一般还取决于路由、互联网网关、公网地址分配和安全策略。</p>
+<p>VPC像云端一块由你规划的园区，子网像园区里的几个区域，路由表告诉数据从哪条出口走，安全组规定哪些通信可以通过。把名字改成“公网子网”不会自动接通公网，就像给房间贴上“出口”标签，也不会自动修出一扇门。各家云平台的产品细节不同，要以实际配置为准。</p>
+<h3 id="ch15-s2" tabindex="-1">15.2 弹性公网IP为什么有用</h3><p>普通云主机的公网地址可能和实例生命周期绑定。弹性公网IP一类产品把公网地址作为独立资源，让你可以重新绑定到不同实例，降低服务迁移时地址变化的影响。</p>
+<h3 id="ch15-s3" tabindex="-1">15.3 NAT网关解决什么</h3><p>很多服务器只需要“主动访问互联网下载更新、调用API”，不需要“被互联网主动访问”。把它们放在私有子网，再通过NAT网关出站，可以减少公网暴露。</p>
+<h3 id="ch15-s4" tabindex="-1">15.4 负载均衡</h3><p>负载均衡器接收客户端连接/请求，再转发给多个后端：</p><div class="diagram" role="figure" aria-labelledby="ch15-fig2"><div class="diagram-title" id="ch15-fig2">图15-2　负载均衡</div><div class="flow"><div class="node">用户流量</div><span class="arrow">→</span><div class="node">Load Balancer<small>健康检查 / 分流</small></div><span class="arrow">→</span><div class="node">Web 1</div><div class="node">Web 2</div><div class="node">Web 3</div></div></div>
+<p>四层负载均衡更关注IP、端口和传输层连接；七层HTTP负载均衡可以根据Host、路径、Header等应用信息转发。</p>
+<p>负载均衡像统一接待台分配空闲窗口；健康检查则是定时确认窗口还能办事。健康检查必须选对端口、路径和成功条件：某台机器能回一个“正常”，不代表登录、支付等完整业务都正常。一个后端坏了，能否避开它，取决于检查与转发配置。</p>
+<h3 id="ch15-s5" tabindex="-1">15.5 CDN与源站</h3><p>CDN在全球/区域部署边缘节点。用户通常先访问附近边缘；静态资源若缓存命中，可直接返回；动态请求或未缓存内容则回源。CDN还常集成TLS终止、WAF、DDoS缓解、边缘计算等能力。</p>
+<h3 id="ch15-s6" tabindex="-1">15.6 一个现代Web架构</h3><div class="diagram" role="figure" aria-labelledby="ch15-fig3"><div class="diagram-title" id="ch15-fig3">图15-3　从域名到数据库</div><div class="flow"><div class="node">DNS</div><span class="arrow">→</span><div class="node">CDN / WAF</div><span class="arrow">→</span><div class="node">负载均衡</div><span class="arrow">→</span><div class="node">应用集群</div><span class="arrow">→</span><div class="node">数据库/缓存</div></div></div>
+<p>这里每一层都可能有自己的IP、端口、证书、日志、健康检查和安全策略。排错时一定要先确认请求到底卡在哪一层。</p>
+<h3 id="ch15-s7" tabindex="-1">15.7 私网服务发现</h3><p>云原生系统通常不会让应用写死数据库IP。服务可以通过内部DNS、服务注册中心或编排平台服务名找到对方。这样实例扩缩容、替换后，不必修改每个客户端。</p>
+
+<h3 id="ch15-practice" tabindex="-1">15.8 纸上设计：给一个小网站安排边界</h3>
+<p>设想一个公开网站，先画出“用户→HTTPS入口→应用→数据库”。只需要一台应用服务器时，可以先不引入多台负载均衡；访问量或可用性要求提高后再扩展。工程方案应与真实需求相配，不必为了图复杂把每种云产品都放进去。</p>
+<p>给图上的每根连线标注来源、目标和端口：用户访问入口TCP 443，HTTP/3还需要UDP 443；入口访问应用的实际业务端口；应用访问数据库的实际端口。数据库不需要接收全网用户连接。管理访问另画一条线，经授权的VPN或其他受控入口进入。</p>
+<p>如果使用CDN，源站仍需正确配置访问控制、证书与回源；缓存刷新也要验证。WAF是Web应用防火墙，能检查部分恶意请求，却不能自动修好有漏洞的业务代码。DNS是访问前的名字查找环节，图中的箭头不表示每个网页字节都先穿过DNS服务器。</p>
+<div class="quiz"><b>小测：CDN边缘能连接，页面却返回502，可以直接断定用户家的Wi-Fi坏了吗？</b><div class="answer">不能。502通常表示网关或代理从上游收到了无效响应，应结合CDN、反向代理和源站日志检查回源地址、端口、TLS与应用。状态码提供方向，还需要确认是哪一层返回的。</div><button type="button">看答案</button></div>
+
+</section>
+
+<section class="chapter" id="ch16" tabindex="-1" aria-labelledby="ch16-title"><h2 id="ch16-title">第16课　互联网骨干、AS与BGP：全球没有“总路由器”</h2><p class="lead">前面讲的是一台设备怎样把包交给默认网关。现在把视角拉到全球：不同运营商和大型网络之间，怎样知道“这个IP前缀该往哪边走”？</p>
+<h3 id="ch16-s1" tabindex="-1">16.1 AS是什么</h3><p>AS（Autonomous System，自治系统）可以粗略理解为在统一路由策略下运营的一组网络。运营商、云厂商、大型内容网络、高校研究网等都可能拥有ASN。</p>
+<div class="diagram" role="figure" aria-labelledby="ch16-fig1"><div class="diagram-title" id="ch16-fig1">图16-1　互联网是很多自治网络拼起来的</div><div class="flow"><div class="node">AS A<small>家庭ISP</small></div><span class="arrow">⇄</span><div class="node">AS B<small>骨干/转接</small></div><span class="arrow">⇄</span><div class="node">AS C<small>云厂商</small></div><span class="arrow">⇄</span><div class="node">AS D<small>CDN</small></div></div></div>
+<h3 id="ch16-s2" tabindex="-1">16.2 BGP解决什么</h3><p>BGP是自治系统之间交换可达性信息的核心协议。一个网络会告诉邻居：“这些IP前缀可以通过我到达”，并携带路径属性。邻居根据策略选择路由，再继续传播。</p>
+<p>因此BGP并不是“每个数据包都问一次”。路由器先通过BGP等协议形成路由表/转发表，然后实际数据包按转发表高速转发。</p>
+<p>把互联网看成几家运输公司互相交接货物。BGP交换的像“哪些地区经由我能到、沿途经过哪些公司”的线路信息，实际数据包像货物。路线会受到合作协议、费用和策略影响，不能只用地图上的直线距离判断哪条路径一定被选中。</p>
+<h3 id="ch16-s3" tabindex="-1">16.3 为什么互联网路由不是简单选最短距离</h3><p>BGP首先是策略型协议。商业关系、对等互联、出口成本、流量工程、安全策略都会影响路径。AS_PATH长度只是常见决策因素之一，不等于地理距离。</p>
+<h3 id="ch16-s4" tabindex="-1">16.4 Transit与Peering</h3><div class="grid2"><div class="mini"><b>Transit</b><span>一方购买另一方的互联网转接能力，让流量到达更广泛的互联网。</span></div><div class="mini"><b>Peering</b><span>两个网络直接互联交换彼此及约定范围内的流量，常见于IX或私有互联。</span></div></div>
+<h3 id="ch16-s5" tabindex="-1">16.5 IX是什么</h3><p>Internet Exchange（互联网交换中心）给多个网络提供高效互联场所。两个网络如果能在本地直接交换流量，就可能减少绕路、成本和延迟。</p>
+<h3 id="ch16-s6" tabindex="-1">16.6 为什么BGP安全很重要</h3><p>错误路由宣告可能让流量走错路甚至造成大范围不可达。现代互联网逐步采用RPKI等机制帮助验证“某个AS是否被授权宣告这个IP前缀”。常见RPKI路由起源验证（ROV）检查前缀与起源AS的授权关系，并不验证整条AS_PATH，也不保证路径性能或数据机密性。</p>
+<h3 id="ch16-s7" tabindex="-1">16.7 traceroute看到的是BGP路径吗</h3><p>不完全是。traceroute展示的是探测包在IP层遇到的一系列可见跳点；BGP描述的是AS间前缀可达性和策略路径。一个AS内部可能有很多跳，有些路由器也不回应探测，所以两者不能简单一一对应。</p>
+
+<h3 id="ch16-practice" tabindex="-1">16.8 入门阶段：会看路径，也会说明看不到什么</h3>
+<p>运行本课或第12课的<code>tracert</code>/<code>traceroute</code>时，先关注第一跳是否是本地出口、后面是否继续有响应、终点能否访问。一个AS内部可以经过很多路由器，所以探测的“跳数”不能直接当成经过了多少个运营商。路径也可能因探测协议、负载均衡和时间而变化。</p>
+<p>你不需要在家用路由器上配置BGP才能完成入门任务。当前要能解释：DNS负责把名字查成记录，IP路由负责逐跳转发，BGP帮助独立网络交换前缀可达信息。三个系统有联系，各自解决的问题不同。</p>
+<div class="quiz"><b>小测：查到两条AS路径，一条经过两个AS、一条经过三个AS，前者就一定更快吗？</b><div class="answer">不一定。AS数量不等于地理距离、链路质量或业务延迟；策略、拥塞、互联容量和服务位置也影响体验。实际速度需用真实业务与性能测试验证。</div><button type="button">看答案</button></div>
+
+<p class="source-note">本课核查依据：<a href="https://www.rfc-editor.org/rfc/rfc6483.html" target="_blank" rel="noopener noreferrer">RFC 6483：BGP路由起源验证</a>。</p>
+</section>
+
+<section class="chapter" id="ch17" tabindex="-1" aria-labelledby="ch17-title"><h2 id="ch17-title">第17课　网络故障排查：不要靠猜，沿着链条一层层排</h2><p class="lead">实用的网络能力体现在排错时能有依据地判断：问题发生在链路、地址、路由、DNS、端口、TLS还是应用？</p>
+<h3 id="ch17-s1" tabindex="-1">17.1 一套通用排错顺序</h3><div class="diagram" role="figure" aria-labelledby="ch17-fig1"><div class="diagram-title" id="ch17-fig1">图17-1　从近到远、从底到高</div><div class="flow"><div class="node">① 链路<small>网线/Wi-Fi</small></div><span class="arrow">→</span><div class="node">② 地址<small>IP/掩码/DHCP</small></div><span class="arrow">→</span><div class="node">③ 网关/路由</div><span class="arrow">→</span><div class="node">④ DNS</div><span class="arrow">→</span><div class="node">⑤ 端口/TCP</div><span class="arrow">→</span><div class="node">⑥ TLS/HTTP/应用</div></div></div>
+<p>先问清楚故障范围：一台设备还是所有设备？一个网站还是所有网站？有线正常而无线异常吗？刚改过哪一项？这些问题像医生先问症状，能快速缩小检查范围。每次只改一个变量，记下改动和结果，没改善就恢复，避免把一个小问题改成几个新问题。</p>
+<h3 id="ch17-s2" tabindex="-1">17.2 场景一：完全上不了网</h3><ol><li>确认网线/无线已连接。</li><li>查看IP，是否拿到了合理地址；如果是169.254.x.x，重点查DHCP/接入。</li><li>ping默认网关。</li><li>ping一个已知公网IP，区分“互联网路由”和“DNS”。</li><li>再查域名解析。</li></ol>
+<div class="note"><span class="kicker">ping只验证特定ICMP探测。</span>不回应可能是ICMP被过滤或限速，不能直接判定网络中断；ping成功也不证明TCP 443、TLS和HTTP正常。结合端口测试与实际请求判断，双栈环境还要分别检查IPv4与IPv6。</div><h3 id="ch17-s3" tabindex="-1">17.3 场景二：能ping IP，域名打不开</h3><p>优先看DNS：</p><pre><code>nslookup example.com
+# 或
+dig example.com</code></pre>
+<p>如果解析失败，检查DNS服务器、DoH/DoT设置、企业策略和本地hosts文件。</p>
+<h3 id="ch17-s4" tabindex="-1">17.4 场景三：域名能解析，但443连不上</h3><p>此时DNS已经不是第一嫌疑。继续测试目标端口：</p><pre><code># Linux/macOS
+nc -vz example.com 443
+
+# Windows PowerShell
+Test-NetConnection example.com -Port 443</code></pre>
+<p>若TCP 443可连，再用<code>curl -v</code>查看TLS和HTTP阶段。TCP端口测试无法证明UDP 443正常；使用HTTP/3时，应另查QUIC连接或浏览器协议列。</p>
+<h3 id="ch17-s5" tabindex="-1">17.5 场景四：127.0.0.1能打开，局域网IP打不开</h3><p>先检查程序监听地址：</p><pre><code># Linux
+ss -lntp
+
+# 看是 127.0.0.1:8080 还是 0.0.0.0:8080 / 192.168.1.x:8080</code></pre>
+<p>如果只监听回环，改应用绑定地址。若已监听外部接口，再查主机防火墙。</p>
+<h3 id="ch17-s6" tabindex="-1">17.6 场景五：服务器本机能访问，公网打不开</h3><p>按顺序查：</p><ol><li>应用是否监听正确接口。</li><li>主机防火墙是否放行。</li><li>云安全组/网络ACL是否放行。</li><li>服务器是否真的有公网可达IP。</li><li>家庭环境是否有端口映射、CGNAT。</li><li>运营商是否限制入站端口。</li></ol>
+<h3 id="ch17-s7" tabindex="-1">17.7 场景六：偶尔很慢，不是完全断</h3><p>这类问题最难，重点收集指标：RTT、丢包、抖动、路径、CPU、连接数、DNS耗时、TLS耗时、TTFB、下载吞吐。TTFB常用来观察从发起请求到收到首个响应字节的等待，具体计时边界以工具为准；它可能包含网络和服务器处理时间，不能直接当成纯网络延迟。不要只截一张测速图。</p>
+<h3 id="ch17-s8" tabindex="-1">17.8 tcpdump/Wireshark什么时候上场</h3><p>当你已经知道大概哪一段有问题，但还不清楚具体报文发生了什么，就抓包。例如：</p><pre><code># Linux：抓TCP 443
+sudo tcpdump -i any tcp port 443
+
+# 抓DNS
+sudo tcpdump -i any port 53</code></pre>
+<p>Wireshark可观察连接、重传和可见的协议元数据。HTTPS下的HTTP/1.1、HTTP/2，以及HTTP/3的应用内容都受加密保护，不能凭普通抓包直接读取。分析应用内容通常需要端点提供会话密钥并由工具支持解密；DoH、DoT和ECH也会改变可见范围。</p>
+<div class="tip note"><span class="kicker">排错黄金规则：</span>先证明哪一层是好的，再向下一层推进。每一步都要有证据，不要“一打不开网页就改DNS”“一延迟高就怪运营商”。</div>
+
+<h3 id="ch17-practice" tabindex="-1">17.9 把“打不开”改成别人能复核的问题</h3>
+<p>试着用五句话描述故障：“哪台设备、什么时间、访问哪个目标、看到什么错误、已经验证了什么”。例如：“笔记本Wi-Fi连接正常，能打开路由器页面；查询目标域名有A记录；TCP 443测试失败；同一手机用蜂窝网络访问正常。”这个例子把范围缩小到某条路径或访问条件，但还不能单凭这些证据判定是哪家运营商的问题。</p>
+<pre><code>排错记录模板（填写用，不执行）：
+时间与设备：
+目标与具体错误：
+本地IP / 前缀 / 网关 / DNS：
+测试命令与关键结果：
+已能证明的部分：
+仍未验证的部分：
+本次只改了哪一项，效果如何：
+下一步与恢复方法：</code></pre>
+<p>常见结果要分开读：<strong>连接被拒绝</strong>常见于目标主动拒绝或没有服务监听，也可能由中间设备返回；<strong>超时</strong>只说明在时限内没等到预期结果；<strong>证书错误</strong>要查名称、信任、有效期及系统时间；<strong>404</strong>要查资源路径；<strong>502</strong>要查代理与上游。每种现象都比“坏了”更有用。</p>
+<div class="quiz"><b>排错小题：域名能解析、TCP 443能连接、curl提示证书名称不匹配。现在优先做什么？</b><div class="answer">确认访问的主机名、实际入口与证书声明的名称，检查是否配置错站点、证书或代理。DNS和TCP已有部分成功证据，不应把关闭防火墙或跳过证书验证作为默认处理方式。</div><button type="button">看答案</button></div>
+
+<p class="source-note">本课核查依据：<a href="https://wiki.wireshark.org/TLS/" target="_blank" rel="noopener noreferrer">Wireshark：TLS解密</a>。</p>
+</section>
+
+<section class="chapter" id="ch18" tabindex="-1" aria-labelledby="ch18-title"><h2 id="ch18-title">第18课　综合实战：从看懂到亲手跑通</h2><p class="lead">现在假设你在家里打开笔记本，连接Wi-Fi，然后输入<code>https://www.example.com/</code>。从按下回车到页面出现，发生了什么？</p>
+<div class="tip note"><span class="kicker">阅读这个流程时：</span>下面以一次普通的新访问说明主线。真实浏览器可能复用现有连接、命中缓存、使用代理，步骤也可能并行；IPv6通常不需要家庭IPv4式NAT。图示帮助你把知识连起来，不代表每次打开网页都会原样重走全部步骤。</div>
+<h3 id="ch18-s1" tabindex="-1">18.1 第一步：设备先加入本地网络</h3><p>Wi-Fi完成无线接入与安全认证。之后DHCP通常给电脑分配IPv4地址、前缀/掩码、默认网关和DNS；IPv6通常通过RA发现默认路由，地址可由SLAAC生成或由DHCPv6分配，DNS参数也可能从RA或DHCPv6取得。</p>
+<h3 id="ch18-s2" tabindex="-1">18.2 第二步：浏览器解析URL</h3><p>浏览器知道：</p><pre><code>协议：https
+主机：www.example.com
+默认端口：443
+路径：/</code></pre>
+<h3 id="ch18-s3" tabindex="-1">18.3 第三步：DNS把名字解析成地址</h3><p>系统/浏览器先查缓存，再向递归解析器查询A、AAAA等记录。递归解析器必要时从根、TLD一路找到权威DNS。</p>
+<h3 id="ch18-s4" tabindex="-1">18.4 第四步：操作系统决定从哪里发出去</h3><p>目标IP通常不在家庭<code>192.168.1.0/24</code>里，于是匹配默认路由，把下一跳交给家庭路由器。</p>
+<h3 id="ch18-s5" tabindex="-1">18.5 第五步：找到默认网关的链路层地址</h3><p>IPv4以太网环境里，电脑通过ARP找到网关MAC，把IP包装进以太网帧或无线链路帧送给AP/路由器。</p>
+<h3 id="ch18-s6" tabindex="-1">18.6 第六步：家庭路由器做NAT</h3><p>若使用IPv4私网，路由器把<code>192.168.1.23:临时端口</code>转换成WAN侧地址和端口，并记住映射。若运营商使用CGNAT，外面可能再做一次转换。</p>
+<h3 id="ch18-s7" tabindex="-1">18.7 第七步：互联网逐跳路由</h3><p>运营商路由器根据目标前缀查表转发。跨AS的可达信息主要通过BGP形成。包可能经过多个运营商、交换中心、骨干网络，最后进入网站或CDN所在网络。</p>
+<h3 id="ch18-s8" tabindex="-1">18.8 第八步：建立安全连接</h3><p>如果使用HTTP/2，通常先建立TCP，再进行TLS握手；如果使用HTTP/3，则建立QUIC连接，TLS 1.3握手被集成进QUIC的连接建立流程。客户端验证服务器证书与域名。</p>
+<h3 id="ch18-s9" tabindex="-1">18.9 第九步：发送HTTP请求</h3><p>浏览器发送类似“我要/这个资源”的请求，服务器/CDN返回状态码、响应头和HTML。</p>
+<h3 id="ch18-s10" tabindex="-1">18.10 第十步：浏览器继续请求几十甚至几百个资源</h3><p>HTML里可能引用CSS、JavaScript、图片、字体和API。HTTP/2/3会复用连接并发交换数据，CDN可能直接在边缘返回大量静态资源。</p>
+<h3 id="ch18-s11" tabindex="-1">18.11 第十一步：页面渲染</h3><p>浏览器解析HTML/CSS、执行JavaScript、布局和绘制。到这一步，慢不一定是网络：前端代码、CPU、GPU、第三方脚本也可能成为瓶颈。</p>
+<div class="diagram" role="figure" aria-labelledby="ch18-fig1"><div class="diagram-title" id="ch18-fig1">图18-1　一条完整主链</div><div class="flow"><div class="node">Wi-Fi接入</div><span class="arrow">→</span><div class="node">DHCP</div><span class="arrow">→</span><div class="node">DNS</div><span class="arrow">→</span><div class="node">路由/ARP</div><span class="arrow">→</span><div class="node">NAT</div><span class="arrow">→</span><div class="node">BGP路径</div><span class="arrow">→</span><div class="node">TCP+TLS<br>或QUIC</div><span class="arrow">→</span><div class="node">HTTP</div><span class="arrow">→</span><div class="node">CDN/应用</div></div></div>
+<h3 id="ch18-s12" tabindex="-1">18.12 学完后你应该能回答这些问题</h3><div class="grid2"><div class="mini"><b>为什么127.0.0.1只能访问自己？</b><span>因为它属于回环地址块，语义就是当前主机内部。</span></div><div class="mini"><b>为什么0.0.0.0常出现在服务监听配置？</b><span>它作为未指定地址，API常用来表达“绑定全部本机IPv4接口”。</span></div><div class="mini"><b>为什么家庭端口映射做了还不通？</b><span>可能被CGNAT、上游NAT、防火墙、运营商策略或应用监听范围阻断。</span></div><div class="mini"><b>为什么HTTPS不等于HTTP/2？</b><span>HTTPS描述安全使用HTTP；HTTP/1.1、2、3是HTTP的版本/映射方式。</span></div><div class="mini"><b>为什么HTTP/3用UDP还可以可靠？</b><span>可靠性由QUIC自己在UDP之上实现。</span></div><div class="mini"><b>为什么域名不是服务器？</b><span>域名是名字；DNS可把它指向IP、别名、CDN等服务入口。</span></div></div>
+<div class="tip note"><span class="kicker">真正入门的标志：</span>遇到网络问题时，你脑中已经不再只有“网络坏了”四个字，而能把它拆成：本地链路、IP配置、网关、路由、NAT、DNS、传输连接、TLS、HTTP和应用。</div>
+
+
+<h3 id="ch18-lab1" tabindex="-1">18.13 实操一：把自己的第一个网页跑起来</h3>
+<p>先区分两个角色：浏览器是提出请求的客户端，下面启动的程序是接收请求的服务器。它们可以运行在同一台电脑上。这个实验只用本机回环地址，帮助你亲眼看到URL、端口、HTTP响应和服务进程之间的关系。</p>
+<ol><li>准备：确认Python 3可用；不确定时回到<a href="#ch0-prepare">动手准备</a>。在项目文件夹打开终端，确认里面有<code>examples</code>目录。实验使用8000端口，与教程预览的4173端口分开。</li><li>启动：运行下方命令，然后让这个终端保持打开。看到<code>Serving HTTP on 127.0.0.1 port 8000</code>一类提示，表示程序已开始等待连接。</li><li>访问：在同一台电脑浏览器输入<code>http://127.0.0.1:8000/</code>，应看到“我的第一个网络实验”。打开页面里的“查看状态文件”，应显示<code>network-lab: ready</code>。</li><li>观察：刷新页面，终端应出现GET请求日志；浏览器Network面板应显示文档与状态文件的请求。你已经让客户端和服务器真正交换了HTTP数据。</li></ol>
+<pre><code>python -m http.server 8000 --bind 127.0.0.1 --directory examples/lab-site</code></pre>
+
+<p>如果提示地址已被占用，不要随意结束陌生进程；换成8001，并把后面所有实验URL和端口测试中的8000一起替换。若提示找不到Python，按准备部分换命令名称或先完成安装。若显示目录列表、404或空白页，先核对启动目录、<code>--directory</code>路径和文件是否齐全。</p>
+<div class="note"><span class="kicker">为何指定目录和地址？</span>本实验只提供<code>examples/lab-site</code>里的公开演示文件，避免把其他个人文件作为目录内容展示；绑定127.0.0.1使服务仅供本机访问。Python的简易HTTP服务适合学习和临时测试，不用于生产部署。</div>
+<h3 id="ch18-lab2" tabindex="-1">18.14 实操二：制造两个小故障，练习分层判断</h3>
+<p>先保留服务运行，在浏览器访问<code>http://127.0.0.1:8000/not-here.html</code>。应收到404：地址和端口已经通了，但这个文件不存在。回到正确路径又能打开，说明路径也是请求的一部分。</p>
+<p>接着在第二个终端测试TCP端口，再查看HTTP响应头。复制自己操作系统对应的两条即可；Windows这里明确使用<code>curl.exe</code>，避免旧版PowerShell中同名别名的差异。</p>
+<pre><code># Windows PowerShell
+Test-NetConnection 127.0.0.1 -Port 8000
+curl.exe -I http://127.0.0.1:8000/
+
+# macOS / Linux（需有nc和curl）
+nc -vz 127.0.0.1 8000
+curl -I http://127.0.0.1:8000/</code></pre>
+
+<p>服务运行时，Windows的<code>TcpTestSucceeded</code>应为<code>True</code>，nc通常提示连接成功，curl应看到200状态的响应头；HTTP版本字样与头部细节以实际输出为准。<code>-I</code>请求响应头，用来快速观察HTTP结果；它不下载正文。</p>
+<p>现在回到启动服务的终端，按Ctrl+C停止，再重复端口测试和curl。常见结果是连接被拒绝，或在当前环境中等待后失败。它与前面的404不同：这时连HTTP响应都没有拿到。浏览器可能缓存旧页面，判断停服效果优先看新的命令结果。随后重新运行启动命令，确认恢复。</p>
+<div class="quiz"><b>解释题：为什么ping 127.0.0.1仍可能成功，8000端口却打不开？</b><div class="answer">ping测试的是回环上的ICMP探测，不要求8000端口有Web服务。网络接口能回应与应用进程正在监听是两个条件。</div><button type="button">看答案</button></div>
+
+<h3 id="ch18-lab3" tabindex="-1">18.15 实操三：整理自己的网络证据</h3>
+<ol><li>用第2课的方法记录活动接口、IP、前缀、网关和DNS；说明每项分别干什么。</li><li>查路由表，指出本地直连网段与默认路由；用自己的两个目标示例解释直连和经网关的差别。</li><li>运行<code>nslookup example.com</code>，区分解析器地址与查询结果；说明这项成功不能证明HTTPS已经成功。</li><li>选择一个自己能访问的HTTPS站点，用浏览器Network面板记录URL、状态码和协议；观察失败时停在哪个阶段，不要求网站一定支持HTTP/3。</li><li>把结果写入<a href="#ch17-practice">排错记录模板</a>，每条结论都注明它依据的观察。</li></ol>
+<p>没有某个命令时，可以先用系统网络设置与浏览器获取相同类别的信息，并在笔记中注明工具限制。基础能力重在能解释证据，不在于背下所有命令参数。</p>
+<h3 id="ch18-lab4" tabindex="-1">18.16 可选实操：让同一局域网的另一台设备访问</h3>
+<p>需要第二台设备和可信的家庭实验网络。先停止回环服务，从第2课记录中找到电脑当前的局域网IPv4。若实际为<code>192.168.1.23</code>，可按下方启动；地址不同必须替换。只在自己可管理的实验网络中进行，不在公共热点、办公受管网络或公网接口上照做。</p>
+<pre><code># 192.168.1.23必须换成实验电脑当前的真实局域网IPv4
+python -m http.server 8000 --bind 192.168.1.23 --directory examples/lab-site</code></pre>
+
+<p>先在实验电脑打开<code>http://真实局域网IP:8000/</code>，再让同一家庭网络中的手机打开相同URL。手机这里不能写127.0.0.1，那会指向手机自己。若出现系统防火墙询问，只按本课的受限访问需求设置，并记录临时规则，以便实验后撤销；不关闭整个防火墙。</p>
+<p>电脑自己能开、手机不能开时，依次检查真实地址、监听地址、两台设备的接入网络、访客/AP隔离和防火墙。暂时无法调整受管规则时，记下限制即可，不把现象误判成HTTP协议失效。成功后回看日志，找到手机来源地址，再按Ctrl+C停止服务并撤销临时规则。</p>
+<h3 id="ch18-assessment" tabindex="-1">18.17 能力验收：用结果证明你已经入门</h3>
+<p>下面六项都能独立完成并解释依据，就具备了处理常见家庭与小型办公网络任务的入门能力。只看懂答案还不够；把截图、记录或配置草图留在自己的笔记里，过几天不看提示再做一次。</p>
+<table><caption>表18-1　零基础入门能力验收</caption><thead><tr><th scope="col">任务</th><th scope="col">交出的证据</th><th scope="col">遇到困难回看</th></tr></thead><tbody>
+<tr><td>认出网络设备与连接</td><td>自己的连接图，标出局域网、无线段、出口</td><td><a href="#ch1-practice">第1课</a></td></tr>
+<tr><td>读懂配置与子网</td><td>IP/前缀/网关/DNS记录，小办公室地址规划，无重复或明显重叠</td><td><a href="#ch2-practice">第2课</a>、<a href="#ch3-practice">第3课</a></td></tr>
+<tr><td>分清名字、地址和服务</td><td>一份DNS结果与一条URL拆解，解释TCP端口测试的范围</td><td><a href="#ch7-practice">第7课</a>、<a href="#ch8-practice">第8课</a></td></tr>
+<tr><td>启动、验证并停止服务</td><td>本地200、错误路径404、停服后连接失败、重启恢复的记录</td><td><a href="#ch18-lab1">实操一</a>、<a href="#ch18-lab2">实操二</a></td></tr>
+<tr><td>有依据地排查故障</td><td>按层收集结果，每次只改一项，写出结论与尚未验证的部分</td><td><a href="#ch17-practice">第17课</a></td></tr>
+<tr><td>安排基本访问边界</td><td>标明来源、协议、端口的访问图，管理与数据库服务不随意暴露</td><td><a href="#ch10-practice">第10课</a>、<a href="#ch15-practice">第15课</a></td></tr>
+</tbody></table>
+<p>进阶自检再做三项：比较不同位置的无线表现；解释代理或VPN改变了哪条路径；有Docker条件时验证容器服务名与端口发布。完成它们后，你会更容易把前面的基础迁移到现代开发和云环境。生产部署还需要继续学习备份、监控、变更回滚和对应平台的操作规范。</p>
+<p class="source-note">实操核查依据：<a href="https://docs.python.org/3/library/http.server.html" target="_blank" rel="noopener noreferrer">Python：http.server与命令行选项</a>；<a href="https://learn.microsoft.com/en-us/powershell/module/nettcpip/test-netconnection" target="_blank" rel="noopener noreferrer">Microsoft：Test-NetConnection</a>；<a href="https://developer.chrome.com/docs/devtools/network/" target="_blank" rel="noopener noreferrer">Chrome：观察网络请求</a>。</p>
+
+</section>
+
+<section class="chapter" id="appendix" tabindex="-1" aria-labelledby="appendix-title"><h2 id="appendix-title">附录：常用命令、端口、术语与权威资料</h2>
+<h3 id="appendix-s1" tabindex="-1">A．最常用命令速查</h3><table><caption>表A-1　最常用命令速查</caption><thead><tr><th scope="col">目的</th><th scope="col">Windows</th><th scope="col">Linux/macOS</th></tr></thead><tbody><tr><td>看IP配置</td><td><code>ipconfig /all</code></td><td><code>ip addr</code> / <code>ifconfig</code></td></tr><tr><td>看路由</td><td><code>route print</code></td><td><code>ip route</code> / <code>netstat -rn</code></td></tr><tr><td>测试RTT</td><td colspan="2"><code>ping</code></td></tr><tr><td>看路径</td><td><code>tracert</code></td><td><code>traceroute</code></td></tr><tr><td>查DNS</td><td><code>nslookup</code></td><td><code>dig</code> / <code>nslookup</code></td></tr><tr><td>看监听端口</td><td><code>netstat -ano</code></td><td><code>ss -lntup</code> / <code>lsof -i</code></td></tr><tr><td>测试TCP端口</td><td><code>Test-NetConnection</code></td><td><code>nc -vz</code></td></tr><tr><td>HTTP/TLS调试</td><td colspan="2"><code>curl -v</code></td></tr><tr><td>邻居/ARP</td><td><code>arp -a</code></td><td><code>ip neigh</code> / <code>arp -a</code></td></tr><tr><td>抓包</td><td>Wireshark</td><td><code>tcpdump</code> / Wireshark</td></tr></tbody></table>
+<h3 id="appendix-s2" tabindex="-1">B．常见端口速查</h3><table><caption>表A-2　常见端口速查</caption><thead><tr><th scope="col">端口</th><th scope="col">服务</th><th scope="col">说明</th></tr></thead><tbody><tr><td>22/TCP</td><td>SSH</td><td>远程Shell、安全隧道</td></tr><tr><td>25/TCP</td><td>SMTP</td><td>邮件服务器传输</td></tr><tr><td>53/UDP,TCP</td><td>DNS</td><td>传统DNS</td></tr><tr><td>67/68 UDP</td><td>DHCPv4</td><td>服务器/客户端</td></tr><tr><td>80/TCP</td><td>HTTP</td><td>Web明文HTTP默认端口</td></tr><tr><td>123/UDP</td><td>NTP</td><td>时间同步</td></tr><tr><td>443/TCP,UDP</td><td>HTTPS</td><td>HTTP over TLS；HTTP/3常见UDP/443</td></tr><tr><td>445/TCP</td><td>SMB</td><td>Windows文件共享等</td></tr><tr><td>3306/TCP</td><td>MySQL</td><td>数据库默认端口</td></tr><tr><td>5432/TCP</td><td>PostgreSQL</td><td>数据库默认端口</td></tr><tr><td>6379/TCP</td><td>Redis</td><td>常见默认端口，不宜裸露公网</td></tr><tr><td>3389/TCP/UDP</td><td>RDP</td><td>Windows远程桌面</td></tr></tbody></table>
+<p class="note"><span class="kicker">端口表不能用来判定流量内容。</span>IANA也明确提醒：某端口被登记给某服务，不代表经过这个端口的流量一定就是该服务，更不代表它是安全流量。</p>
+<h3 id="appendix-s3" tabindex="-1">C．一张协议栈总图</h3><div class="diagram" role="figure" aria-labelledby="appendix-fig1"><div class="diagram-title" id="appendix-fig1">图A-1　协议栈与相邻层协作</div><div class="layer"><div class="lname">应用层</div><div>HTTP、DNS、SSH、SMTP、应用自定义协议</div></div><div class="layer"><div class="lname">传输层</div><div>TCP、UDP、QUIC（QUIC运行在UDP之上并向应用提供传输能力）</div></div><div class="layer"><div class="lname">网络层</div><div>IPv4、IPv6、ICMP/ICMPv6、路由；IPv6邻居发现（ND）基于ICMPv6</div></div><div class="layer"><div class="lname">链路层</div><div>Ethernet、Wi-Fi；ARP在IPv4与链路层地址之间进行解析</div></div><div class="layer"><div class="lname">物理媒介</div><div>铜缆、光纤、无线电</div></div></div>
+<h3 id="appendix-s4" tabindex="-1">D．核心术语极简解释</h3><div class="grid2"><div class="mini"><b>IP</b><span>跨网络寻址与转发的基础。</span></div><div class="mini"><b>CIDR</b><span>用前缀长度描述地址块，例如/24。</span></div><div class="mini"><b>Gateway</b><span>去其他网络时常用的下一跳。</span></div><div class="mini"><b>NAT</b><span>在不同地址空间之间改写地址，常伴随端口转换。</span></div><div class="mini"><b>DNS</b><span>分布式命名系统，把名字解析成资源记录。</span></div><div class="mini"><b>TLS</b><span>为客户端/服务器通信提供加密、完整性和认证机制。</span></div><div class="mini"><b>QUIC</b><span>基于UDP承载的安全、多路复用现代传输协议。</span></div><div class="mini"><b>BGP</b><span>自治系统之间交换IP前缀可达性的核心协议。</span></div></div>
+<span id="sources"></span><h3 id="appendix-s5" tabindex="-1">E．权威资料与标准来源</h3><div class="refs"><ol>
+<li><a href="https://www.rfc-editor.org/info/rfc9293" target="_blank" rel="noopener noreferrer">RFC 9293 — Transmission Control Protocol (TCP)</a></li>
+<li><a href="https://www.rfc-editor.org/info/rfc768" target="_blank" rel="noopener noreferrer">RFC 768 — User Datagram Protocol</a></li>
+<li><a href="https://www.rfc-editor.org/info/rfc8200" target="_blank" rel="noopener noreferrer">RFC 8200 — IPv6 Specification</a>（页面会列出后续更新）</li>
+<li><a href="https://www.rfc-editor.org/info/rfc1918" target="_blank" rel="noopener noreferrer">RFC 1918 — Address Allocation for Private Internets</a></li>
+<li><a href="https://www.rfc-editor.org/info/rfc6598" target="_blank" rel="noopener noreferrer">RFC 6598 — Shared Address Space for CGN</a></li>
+<li><a href="https://www.iana.org/assignments/iana-ipv4-special-registry" target="_blank" rel="noopener noreferrer">IANA IPv4 Special-Purpose Address Registry</a></li>
+<li><a href="https://www.rfc-editor.org/info/rfc4632" target="_blank" rel="noopener noreferrer">RFC 4632 — CIDR Address Strategy</a></li>
+<li><a href="https://www.rfc-editor.org/rfc/rfc1034.html" target="_blank" rel="noopener noreferrer">RFC 1034 — Domain Names: Concepts and Facilities</a>；<a href="https://www.rfc-editor.org/rfc/rfc1035.html" target="_blank" rel="noopener noreferrer">RFC 1035 — DNS Implementation and Specification</a></li>
+<li><a href="https://www.rfc-editor.org/info/rfc4033" target="_blank" rel="noopener noreferrer">RFC 4033 — DNSSEC Introduction and Requirements</a></li>
+<li><a href="https://www.rfc-editor.org/info/rfc8484" target="_blank" rel="noopener noreferrer">RFC 8484 — DNS over HTTPS</a>；<a href="https://www.rfc-editor.org/info/rfc7858" target="_blank" rel="noopener noreferrer">RFC 7858 — DNS over TLS</a></li>
+<li><a href="https://www.icann.org/resources/pages/about-domain-names-2018-08-30-en" target="_blank" rel="noopener noreferrer">ICANN — About Domain Names</a>；<a href="https://www.iana.org/domains/root/db" target="_blank" rel="noopener noreferrer">IANA Root Zone Database</a></li>
+<li><a href="https://www.rfc-editor.org/info/rfc9110" target="_blank" rel="noopener noreferrer">RFC 9110 — HTTP Semantics</a>；<a href="https://www.rfc-editor.org/info/rfc9113" target="_blank" rel="noopener noreferrer">RFC 9113 — HTTP/2</a></li>
+<li><a href="https://www.rfc-editor.org/rfc/rfc9114.html" target="_blank" rel="noopener noreferrer">RFC 9114 — HTTP/3</a>；<a href="https://www.rfc-editor.org/rfc/rfc9000.html" target="_blank" rel="noopener noreferrer">RFC 9000 — QUIC</a></li>
+<li><a href="https://www.rfc-editor.org/rfc/rfc8446.html" target="_blank" rel="noopener noreferrer">RFC 8446 — TLS 1.3</a></li>
+<li><a href="https://www.iana.org/assignments/service-names-port-numbers" target="_blank" rel="noopener noreferrer">IANA Service Name and Transport Protocol Port Number Registry</a></li>
+<li><a href="https://docs.docker.com/engine/network/" target="_blank" rel="noopener noreferrer">Docker Docs — Networking overview</a>；<a href="https://docs.docker.com/engine/network/port-publishing/" target="_blank" rel="noopener noreferrer">Port publishing and mapping</a></li>
+<li><a href="https://www.wireguard.com/quickstart/" target="_blank" rel="noopener noreferrer">WireGuard Official — Quick Start</a></li>
+<li><a href="https://standards.ieee.org/ieee/802.11be/7516/" target="_blank" rel="noopener noreferrer">IEEE 802.11be-2024 — Extremely High Throughput (Wi-Fi 7)</a></li>
+<li><a href="https://www.rfc-editor.org/info/rfc4271" target="_blank" rel="noopener noreferrer">RFC 4271 — BGP-4</a>（页面列出后续更新RFC）</li>
+<li><a href="https://www.rfc-editor.org/info/rfc2131/" target="_blank" rel="noopener noreferrer">RFC 2131 — DHCP</a></li>
+<li><a href="https://www.rfc-editor.org/info/rfc4861/" target="_blank" rel="noopener noreferrer">RFC 4861 — IPv6 Neighbor Discovery</a></li>
+<li><a href="https://www.rfc-editor.org/info/rfc3021" target="_blank" rel="noopener noreferrer">RFC 3021 — /31 Point-to-Point Links</a></li>
+<li><a href="https://www.rfc-editor.org/info/rfc9525/" target="_blank" rel="noopener noreferrer">RFC 9525 — Service Identity in TLS</a></li>
+<li><a href="https://www.rfc-editor.org/info/rfc7766" target="_blank" rel="noopener noreferrer">RFC 7766 — DNS over TCP</a></li>
+<li><a href="https://www.rfc-editor.org/info/rfc9001" target="_blank" rel="noopener noreferrer">RFC 9001 — QUIC TLS</a></li>
+<li><a href="https://www.rfc-editor.org/rfc/rfc6483.html" target="_blank" rel="noopener noreferrer">RFC 6483 — BGP Origin Validation</a></li>
+<li><a href="https://wiki.wireshark.org/TLS/" target="_blank" rel="noopener noreferrer">Wireshark — TLS Decryption</a></li>
+<li><a href="https://hub.docker.com/_/postgres" target="_blank" rel="noopener noreferrer">Docker Hub — PostgreSQL Official Image</a></li>
+</ol></div>
+<footer class="footer">现代网络工程基础 · 2026年10月修订。关键技术表述核查日期：2026年10月8日。附录与课末提供原始资料入口。标准、实现和地区规则会变化，实际部署前请核对对应版本与环境。</footer>
+</section>
+</div>
+</main>
+<aside class="reading-rail" aria-label="当前章节导航"><p class="rail-label">本节内容</p><nav class="section-outline" id="sectionOutline" aria-label="本节小标题"></nav><p class="position-label">教程阅读位置 <span id="readingPercent">0%</span></p></aside>
+<dialog class="search-dialog" id="searchDialog" aria-labelledby="searchTitle">
+<div class="search-head"><div class="search-label"><label id="searchTitle" for="searchInput">搜索教程</label><button type="button" id="closeSearch" aria-label="关闭搜索">×</button></div><input class="search-input" id="searchInput" type="search" placeholder="例如：NAT、DNS、端口映射" autocomplete="off" spellcheck="false" maxlength="100" aria-describedby="searchFeedback"/><p class="search-feedback" id="searchFeedback" role="status" aria-live="polite"></p></div>
+<div class="search-results" id="searchResults"></div></dialog>
+<noscript><p class="note">当前浏览器未启用JavaScript。正文、目录和问答仍可阅读；教程搜索、主题切换、复制与阅读位置保存需要启用JavaScript。</p></noscript>
+<script defer src="scripts/book.js"></script>
+</body></html>

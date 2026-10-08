@@ -1,0 +1,16 @@
+services:
+  web:
+    image: nginx:stable-alpine
+    ports:
+      - "127.0.0.1:8080:80"
+  db:
+    image: postgres:17-alpine
+    environment:
+      POSTGRES_USER: netbook
+      POSTGRES_DB: netbook
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?请在.env中设置数据库密码}
+    volumes:
+      - db-data:/var/lib/postgresql/data
+    # 不发布5432到宿主机；同网络服务可用db:5432访问
+volumes:
+  db-data:

@@ -1,0 +1,29 @@
+# Local credentials and configuration
+.netlify/
+.env
+.env.*
+*.pem
+*.key
+.codex/
+.vscode/
+.idea/
+
+# Local review records
+.hallmark/
+修订说明.md
+AGENTS.md
+AGENT.md
+
+# Generated output and development artifacts
+/public/
+node_modules/
+*.log
+*.tmp
+*.bak
+*.zip
+*.pdf
+playwright-report/
+test-results/
+.DS_Store
+Thumbs.db
+desktop.ini
