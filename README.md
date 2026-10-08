@@ -1,5 +1,7 @@
 # 现代网络工程基础
 
+[在线学习](https://modern-network-engineering-tutorial.netlify.app/) · [GitHub公开仓库](https://github.com/Buds-2025/modern-network-engineering-tutorial)
+
 面向零基础读者的静态中文网络入门教程，包含学习准备、18课正文与附录。通过生活场景、贴切比方、图解、命令与操作练习，帮助读者理解网络并验证自己的判断。
 
 当前包含33幅图解、15张表格、35段代码或记录模板，以及15道可展开答案的检查题。各课提供操作、规划或判断练习，第18课安排综合实操与能力验收。
